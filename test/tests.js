@@ -1,5 +1,43 @@
 var WORK_AREA_ID = "workarea";
 
+test("Image should have image element wrapped by anchor", function() {
+  var img = new Image();
+  equal(img.img.tagName, "IMG", "have image element");
+  equal(img.div.tagName, "A", "wrapped by anchor element");
+});
+
+test("Image should get and set url of image", function() {
+  var img = new Image();
+  var url = randPictureUrl();
+  img.setUrl(url);
+  equal(img.getUrl(), url, "get same url that set");
+});
+
+test("Image should show as a child of specified element", function() {
+  withWorkArea(function(wrkArea) {
+    var img = new Image();
+    img.setUrl("ok.png");
+    img.show(wrkArea.id);
+    
+    insertedImg = wrkArea.firstChild.firstChild;
+    equal(insertedImg.tagName, "IMG", "show as a child");
+  });
+});
+
+test("Image should be reloaded when on error", function() {
+  withWorkArea(function(wrkArea) {
+    var img = new Image();
+    img.setOnError(function() {
+      img.setUrl("ok.png");
+    });
+    img.setUrl("error.png");
+    img.show(wrkArea.id);
+    doLater(function() {
+      equal(img.getUrl(), "ok.png", "reloaded");
+    });
+  });
+});
+
 test("makeKey should return random string which length is 5", function() {
   notEqual(makeKey(), makeKey(), "string is random");
   equal(makeKey().length, 5, "string length is 5");
@@ -44,12 +82,6 @@ test("insertFirst should insert element first when child node exists",
   });
 });
 
-test("createImg should return image element wrapped by anchor", function() {
-  var img = createImg();
-  ok(img.tagName.match("IMG"), "is image element");
-  equal(img.parentNode.tagName, "A", "wrapped by anchor element");
-});
-
 test("isImageExist should return true if image isn't not_exist.png",
     function() {
   isImageExistTest("check image exist", "ok.png", true);
@@ -63,6 +95,14 @@ test("image should be reloaded when not exist", function() {
 test("image should be reloaded on error", function() {
   reloadTest("something.png");
 });
+
+function doLater(func) {
+  stop();
+  setTimeout(function() {
+    func();
+    start();
+  }, 100);
+}
 
 function isImageExistTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {

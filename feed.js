@@ -9,6 +9,37 @@ function showRandPicture(parentId) {
   insertFirst(parent, img.parentNode);
 }
 
+function Image() {
+  this.img = document.createElement("img");
+  this.img.setAttribute("class", "show");
+  // for IE
+  this.img.setAttribute("className", "show");
+  this.img.onload = this.onload;
+  
+  this.div = document.createElement("a");
+  this.div.setAttribute("target", "_blank");
+  this.div.appendChild(this.img);
+};
+
+Image.prototype.getUrl = function() {
+  return this.url;
+}
+
+Image.prototype.setUrl = function(url) {
+  this.url = url;
+  this.img.setAttribute("src", url);
+  this.div.setAttribute("href", url);
+}
+
+Image.prototype.show = function(parentId) {
+  var parent = document.getElementById(parentId);
+  insertFirst(parent, this.div);
+}
+
+Image.prototype.setOnError = function(func) {
+  this.img.onerror = func;
+}
+
 function createImg() {
   var img = document.createElement("img");
   img.setAttribute("class", "show");
