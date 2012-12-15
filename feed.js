@@ -6,7 +6,7 @@ function showRandPicture(parentId) {
   };
   img.onerror = function() { setRandPicture(img); }
   var parent = document.getElementById(parentId);
-  insertFirst(parent, img);
+  insertFirst(parent, img.parentNode);
 }
 
 function createImg() {
@@ -14,11 +14,16 @@ function createImg() {
   img.setAttribute("class", "show");
   // for IE
   img.setAttribute("className", "show");
+  var div = document.createElement("a");
+  div.setAttribute("target", "_blank");
+  div.appendChild(img);
   return img;
 }
 
 function setRandPicture(img) {
-  img.setAttribute("src", randPictureUrl());
+  var url = randPictureUrl();
+  img.setAttribute("src", url);
+  img.parentNode.setAttribute("href", url);
 }
 
 function randPictureUrl() {

@@ -13,7 +13,7 @@ test("randChar should return random string which length is 1", function() {
 test("showRandPicture should show random picture of imgur", function() {
   withWorkArea(function(wrkArea) {
     showRandPicture(wrkArea.id);
-    var img = wrkArea.firstChild;
+    var img = wrkArea.firstChild.firstChild;
     ok(img.nodeName.match(/img/i), "image element is inserted");
     ok(img.src.match(/imgur/i), "image source is imgur");
   });
@@ -44,9 +44,10 @@ test("insertFirst should insert element first when child node exists",
   });
 });
 
-test("createImg should return image element", function() {
+test("createImg should return image element wrapped by anchor", function() {
   var img = createImg();
-  ok(img.tagName.match(/img/i), "image element");
+  ok(img.tagName.match("IMG"), "is image element");
+  equal(img.parentNode.tagName, "A", "wrapped by anchor element");
 });
 
 test("isImageExist should return true if image isn't not_exist.png",
@@ -79,7 +80,7 @@ function isImageExistTest(msg, filename, expected) {
 function reloadTest(filename) {
   withWorkArea(function(wrkArea) {
     showRandPicture(wrkArea.id);
-    var img = wrkArea.firstChild;
+    var img = wrkArea.firstChild.firstChild;
     img.setAttribute("src", filename);
     Mock.make("randPictureUrl", function() { return "ok.png"; });
     stop();
