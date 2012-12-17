@@ -10,15 +10,15 @@ function showRandPicture(parentId) {
 }
 
 function Image() {
-  this.img = document.createElement("img");
-  this.img.setAttribute("class", "show");
+  this.innerImg = document.createElement("img");
+  this.innerImg.setAttribute("class", "show");
   // for IE
-  this.img.setAttribute("className", "show");
-  this.img.onload = this.onload;
+  this.innerImg.setAttribute("className", "show");
+  this.innerImg.onload = this.onload;
   
-  this.div = document.createElement("a");
-  this.div.setAttribute("target", "_blank");
-  this.div.appendChild(this.img);
+  this.innerWrapper = document.createElement("a");
+  this.innerWrapper.setAttribute("target", "_blank");
+  this.innerWrapper.appendChild(this.innerImg);
 };
 
 Image.prototype.getUrl = function() {
@@ -27,17 +27,17 @@ Image.prototype.getUrl = function() {
 
 Image.prototype.setUrl = function(url) {
   this.url = url;
-  this.img.setAttribute("src", url);
-  this.div.setAttribute("href", url);
+  this.innerImg.setAttribute("src", url);
+  this.innerWrapper.setAttribute("href", url);
 }
 
 Image.prototype.show = function(parentId) {
   var parent = document.getElementById(parentId);
-  insertFirst(parent, this.div);
+  insertFirst(parent, this.innerWrapper);
 }
 
 Image.prototype.setOnError = function(func) {
-  this.img.onerror = func;
+  this.innerImg.onerror = func;
 }
 
 function createImg() {

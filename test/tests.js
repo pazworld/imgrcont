@@ -2,8 +2,8 @@ var WORK_AREA_ID = "workarea";
 
 test("Image should have image element wrapped by anchor", function() {
   var img = new Image();
-  equal(img.img.tagName, "IMG", "have image element");
-  equal(img.div.tagName, "A", "wrapped by anchor element");
+  equal(img.innerImg.tagName, "IMG", "have image element");
+  equal(img.innerWrapper.tagName, "A", "wrapped by anchor element");
 });
 
 test("Image should get and set url of image", function() {
