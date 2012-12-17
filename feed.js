@@ -14,7 +14,7 @@ function Image() {
   this.innerImg.setAttribute("class", "show");
   // for IE
   this.innerImg.setAttribute("className", "show");
-  this.innerImg.onload = this.onload;
+  this.innerImg.onerror = this.innerImgOnError;
   
   this.innerWrapper = document.createElement("a");
   this.innerWrapper.setAttribute("target", "_blank");
@@ -22,11 +22,10 @@ function Image() {
 };
 
 Image.prototype.getUrl = function() {
-  return this.url;
+  return this.innerImg.getAttribute("src");
 }
 
 Image.prototype.setUrl = function(url) {
-  this.url = url;
   this.innerImg.setAttribute("src", url);
   this.innerWrapper.setAttribute("href", url);
 }
@@ -36,8 +35,8 @@ Image.prototype.show = function(parentId) {
   insertFirst(parent, this.innerWrapper);
 }
 
-Image.prototype.setOnError = function(func) {
-  this.innerImg.onerror = func;
+Image.prototype.innerImgOnError = function() {
+  setRandPicture(this);
 }
 
 function createImg() {
@@ -45,6 +44,7 @@ function createImg() {
   img.setAttribute("class", "show");
   // for IE
   img.setAttribute("className", "show");
+  
   var div = document.createElement("a");
   div.setAttribute("target", "_blank");
   div.appendChild(img);

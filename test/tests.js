@@ -27,13 +27,12 @@ test("Image should show as a child of specified element", function() {
 test("Image should be reloaded when on error", function() {
   withWorkArea(function(wrkArea) {
     var img = new Image();
-    img.setOnError(function() {
-      img.setUrl("ok.png");
-    });
+    Mock.make("randPictureUrl", function() { return "ok.png"; });
     img.setUrl("error.png");
     img.show(wrkArea.id);
     doLater(function() {
       equal(img.getUrl(), "ok.png", "reloaded");
+      Mock.revert_all();
     });
   });
 });
