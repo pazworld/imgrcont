@@ -24,6 +24,7 @@ Image.prototype.getUrl = function() {
 Image.prototype.setUrl = function(url) {
   this.innerImg.setAttribute("src", url);
   this.innerWrapper.setAttribute("href", url);
+  return this;
 }
 
 Image.prototype.show = function(parentId) {

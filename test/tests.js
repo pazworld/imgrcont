@@ -6,6 +6,11 @@ test("Image should have image element wrapped by anchor", function() {
   equal(img.innerWrapper.tagName, "A", "wrapped by anchor element");
 });
 
+test("Image.setUrl should return that Image object itself.", function() {
+  var img = new Image();
+  deepEqual(img.setUrl("ok.png"), img, "same Image object");
+});
+
 test("Image should get and set url of image", function() {
   var img = new Image();
   var url = randPictureUrl();
