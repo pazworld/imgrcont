@@ -1,12 +1,7 @@
 function showRandPicture(parentId) {
-  var img = createImg();
-  setRandPicture(img);
-  img.onload = function() {
-    if (!isImageExist(img)) setRandPicture(img);
-  };
-  img.onerror = function() { setRandPicture(img); }
-  var parent = document.getElementById(parentId);
-  insertFirst(parent, img.parentNode);
+  var img = new Image();
+  img.setUrl(randPictureUrl());
+  img.show(parentId);
 }
 
 function Image() {
