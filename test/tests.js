@@ -114,14 +114,6 @@ test("isImageExist should return true if image isn't not_exist.png",
   isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
-test("image should be reloaded when not exist", function() {
-  reloadTest("not_exist.png");
-});
-
-test("image should be reloaded on error", function() {
-  reloadTest("something.png");
-});
-
 function doLater(func) {
   stop();
   setTimeout(function() {
@@ -138,21 +130,6 @@ function isImageExistTest(msg, filename, expected) {
     stop();
     setTimeout(function() {
       equal(isImageExist(img), expected, msg);
-      start();
-    }, 100);
-  });
-}
-
-function reloadTest(filename) {
-  withWorkArea(function(wrkArea) {
-    showRandPicture(wrkArea.id);
-    var img = wrkArea.firstChild.firstChild;
-    img.setAttribute("src", filename);
-    Mock.make("randPictureUrl", function() { return "ok.png"; });
-    stop();
-    setTimeout(function() {
-      ok(img.src.match("ok.png"), "image is reloaded");
-      Mock.revert_all();
       start();
     }, 100);
   });
