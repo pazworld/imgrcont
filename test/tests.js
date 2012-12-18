@@ -11,7 +11,8 @@ test("Image.setUrl should return that Image object itself.", function() {
   deepEqual(img.setUrl("ok.png"), img, "same Image object");
 });
 
-test("Image should get and set url of image", function() {
+test("Image.getUrl should return same url which is set by setUrl",
+    function() {
   var img = new Image();
   var url = randPictureUrl();
   img.setUrl(url);
