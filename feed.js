@@ -30,6 +30,7 @@ Image.prototype.setUrl = function(url) {
 Image.prototype.show = function(parentId) {
   var parent = document.getElementById(parentId);
   insertFirst(parent, this.innerWrapper);
+  return this;
 }
 
 Image.prototype.innerImgOnError = function() {

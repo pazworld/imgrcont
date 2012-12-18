@@ -30,6 +30,14 @@ test("Image should show as a child of specified element", function() {
   });
 });
 
+test("Image.show should return that Image object itself.", function() {
+  withWorkArea(function(wrkArea) {
+    var img = new Image();
+    img.setUrl("ok.png");
+    deepEqual(img.show(wrkArea.id), img, "same Image object");
+  });
+});
+
 test("Image should be reloaded when on error", function() {
   withWorkArea(function(wrkArea) {
     var img = new Image();
