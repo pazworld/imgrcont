@@ -37,6 +37,19 @@ test("Image should be reloaded when on error", function() {
   });
 });
 
+test("Image should be reloaded when not exist", function() {
+  withWorkArea(function(wrkArea) {
+    var img = new Image();
+    Mock.make("randPictureUrl", function() { return "ok.png"; });
+    img.setUrl("not_exist.png");
+    img.show(wrkArea.id);
+    doLater(function() {
+      equal(img.getUrl(), "ok.png", "reloaded");
+      Mock.revert_all();
+    });
+  });
+});
+
 test("makeKey should return random string which length is 5", function() {
   notEqual(makeKey(), makeKey(), "string is random");
   equal(makeKey().length, 5, "string length is 5");

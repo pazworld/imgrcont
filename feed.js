@@ -15,6 +15,7 @@ function Image() {
   // for IE
   this.innerImg.setAttribute("className", "show");
   this.innerImg.onerror = this.innerImgOnError;
+  this.innerImg.onload = this.innerImgOnLoad;
   
   this.innerWrapper = document.createElement("a");
   this.innerWrapper.setAttribute("target", "_blank");
@@ -37,6 +38,10 @@ Image.prototype.show = function(parentId) {
 
 Image.prototype.innerImgOnError = function() {
   setRandPicture(this);
+}
+
+Image.prototype.innerImgOnLoad = function() {
+  if (!isImageExist(this)) setRandPicture(this);
 }
 
 function createImg() {
