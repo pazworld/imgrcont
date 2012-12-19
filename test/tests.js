@@ -13,18 +13,14 @@ test("Image.setUrl should return that Image object itself.", function() {
 
 test("Image.getUrl should return same url which is set by setUrl",
     function() {
-  var img = new Image();
   var url = randPictureUrl();
-  img.setUrl(url);
+  var img = (new Image()).setUrl(url);
   equal(img.getUrl(), url, "get same url that set");
 });
 
 test("Image should show as a child of specified element", function() {
   withWorkArea(function(wrkArea) {
-    var img = new Image();
-    img.setUrl("ok.png");
-    img.show(wrkArea.id);
-    
+    var img = (new Image()).setUrl("ok.png").show(wrkArea.id);
     insertedImg = wrkArea.firstChild.firstChild;
     equal(insertedImg.tagName, "IMG", "show as a child");
   });
@@ -32,18 +28,15 @@ test("Image should show as a child of specified element", function() {
 
 test("Image.show should return that Image object itself.", function() {
   withWorkArea(function(wrkArea) {
-    var img = new Image();
-    img.setUrl("ok.png");
+    var img = (new Image()).setUrl("ok.png");
     deepEqual(img.show(wrkArea.id), img, "same Image object");
   });
 });
 
 test("Image should be reloaded when on error", function() {
   withWorkArea(function(wrkArea) {
-    var img = new Image();
     Mock.make("randPictureUrl", function() { return "ok.png"; });
-    img.setUrl("error.png");
-    img.show(wrkArea.id);
+    var img = (new Image()).setUrl("error.png").show(wrkArea.id);
     doLater(function() {
       equal(img.getUrl(), "ok.png", "reloaded");
       Mock.revert_all();
@@ -53,10 +46,8 @@ test("Image should be reloaded when on error", function() {
 
 test("Image should be reloaded when not exist", function() {
   withWorkArea(function(wrkArea) {
-    var img = new Image();
     Mock.make("randPictureUrl", function() { return "ok.png"; });
-    img.setUrl("not_exist.png");
-    img.show(wrkArea.id);
+    var img = (new Image()).setUrl("not_exist.png").show(wrkArea.id);
     doLater(function() {
       equal(img.getUrl(), "ok.png", "reloaded");
       Mock.revert_all();
@@ -97,7 +88,7 @@ test("insertFirst should insert element first when child node exists",
   withWorkArea(function(wrkArea) {
     var e1 = document.createElement("div");
     e1.setAttribute("class", "to be second");
-    wrkArea.appendChild(e1);
+    insertFirst(wrkArea, e1);
     equal(wrkArea.childNodes.length, 1, "when child node exists");
     
     var e2 = document.createElement("div");
