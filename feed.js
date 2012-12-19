@@ -33,6 +33,12 @@ Image.prototype.show = function(parentId) {
   return this;
 }
 
+Image.prototype.disableReload = function() {
+  this.innerImg.onerror = null;
+  this.innerImg.onload = null;
+  return this;
+}
+
 Image.prototype.innerImgOnError = function() {
   setRandPicture(this);
 }
