@@ -47,18 +47,6 @@ Image.prototype.innerImgOnLoad = function() {
   if (!isImageExist(this)) setRandPicture(this);
 }
 
-function createImg() {
-  var img = document.createElement("img");
-  img.setAttribute("class", "show");
-  // for IE
-  img.setAttribute("className", "show");
-  
-  var div = document.createElement("a");
-  div.setAttribute("target", "_blank");
-  div.appendChild(img);
-  return img;
-}
-
 function setRandPicture(img) {
   var url = randPictureUrl();
   img.setAttribute("src", url);

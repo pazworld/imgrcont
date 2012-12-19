@@ -139,14 +139,11 @@ function doLater(func) {
 
 function isImageExistTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {
-    var img = createImg();
-    wrkArea.appendChild(img);
-    img.setAttribute("src", filename);
-    stop();
-    setTimeout(function() {
-      equal(isImageExist(img), expected, msg);
-      start();
-    }, 100);
+    var img = (new Image()).disableReload().setUrl(filename);
+    img.show(wrkArea.id);
+    doLater(function() {
+      equal(isImageExist(img.innerImg), expected, msg);
+    });
   });
 }
 
