@@ -61,7 +61,7 @@ test("Image.disableReload should disable reload on error", function() {
     var img = (new Image()).setUrl("error.png").disableReload();
     img.show(wrkArea.id);
     doLater(function() {
-      equal(img.getUrl(), "error.png", "reloaded");
+      equal(img.getUrl(), "error.png", "reload disabled");
       Mock.revert_all();
     });
   });
@@ -73,7 +73,7 @@ test("Image.disableReload should disable reload on not exist", function() {
     var img = (new Image()).setUrl("not_exist.png").disableReload();
     img.show(wrkArea.id);
     doLater(function() {
-      equal(img.getUrl(), "not_exist.png", "reloaded");
+      equal(img.getUrl(), "not_exist.png", "reload disabled");
       Mock.revert_all();
     });
   });
