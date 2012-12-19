@@ -34,49 +34,19 @@ test("Image.show should return that Image object itself.", function() {
 });
 
 test("Image should be reloaded on error", function() {
-  withWorkArea(function(wrkArea) {
-    Mock.make("randPictureUrl", function() { return "ok.png"; });
-    var img = (new Image()).setUrl("error.png").show(wrkArea.id);
-    doLater(function() {
-      equal(img.getUrl(), "ok.png", "reloaded");
-      Mock.revert_all();
-    });
-  });
+  reloadTest("reloaded", "error.png", "ok.png");
 });
 
 test("Image should be reloaded when not exist", function() {
-  withWorkArea(function(wrkArea) {
-    Mock.make("randPictureUrl", function() { return "ok.png"; });
-    var img = (new Image()).setUrl("not_exist.png").show(wrkArea.id);
-    doLater(function() {
-      equal(img.getUrl(), "ok.png", "reloaded");
-      Mock.revert_all();
-    });
-  });
+  reloadTest("reloaded", "not_exist.png", "ok.png");
 });
 
 test("Image.disableReload should disable reload on error", function() {
-  withWorkArea(function(wrkArea) {
-    Mock.make("randPictureUrl", function() { return "ok.png"; });
-    var img = (new Image()).setUrl("error.png").disableReload();
-    img.show(wrkArea.id);
-    doLater(function() {
-      equal(img.getUrl(), "error.png", "reload disabled");
-      Mock.revert_all();
-    });
-  });
+  reloadTest("reload disabled", "error.png", "error.png", true);
 });
 
 test("Image.disableReload should disable reload on not exist", function() {
-  withWorkArea(function(wrkArea) {
-    Mock.make("randPictureUrl", function() { return "ok.png"; });
-    var img = (new Image()).setUrl("not_exist.png").disableReload();
-    img.show(wrkArea.id);
-    doLater(function() {
-      equal(img.getUrl(), "not_exist.png", "reload disabled");
-      Mock.revert_all();
-    });
-  });
+  reloadTest("reload disabled", "not_exist.png", "not_exist.png", true);
 });
 
 test("makeKey should return random string which length is 5", function() {
@@ -129,12 +99,17 @@ test("isImageExist should return true if image isn't not_exist.png",
   isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
-function doLater(func) {
-  stop();
-  setTimeout(function() {
-    func();
-    start();
-  }, 100);
+function reloadTest(msg, filename, expected, disableReload) {
+  withWorkArea(function(wrkArea) {
+    Mock.make("randPictureUrl", function() { return "ok.png"; });
+    var img = (new Image());
+    if (disableReload) img.disableReload();
+    img.setUrl(filename).show(wrkArea.id);
+    doLater(function() {
+      equal(img.getUrl(), expected, msg);
+      Mock.revert_all();
+    });
+  });
 }
 
 function isImageExistTest(msg, filename, expected) {
@@ -145,6 +120,14 @@ function isImageExistTest(msg, filename, expected) {
       equal(isImageExist(img.innerImg), expected, msg);
     });
   });
+}
+
+function doLater(func) {
+  stop();
+  setTimeout(function() {
+    func();
+    start();
+  }, 100);
 }
 
 function withWorkArea(func) {
