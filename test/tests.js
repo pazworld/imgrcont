@@ -41,14 +41,6 @@ test("Image should be reloaded when not exist", function() {
   reloadTest("reloaded", "not_exist.png", "ok.png");
 });
 
-test("Image.disableReload should disable reload on error", function() {
-  reloadTest("reload disabled", "error.png", "error.png", true);
-});
-
-test("Image.disableReload should disable reload on not exist", function() {
-  reloadTest("reload disabled", "not_exist.png", "not_exist.png", true);
-});
-
 test("makeKey should return random string which length is 5", function() {
   notEqual(makeKey(), makeKey(), "string is random");
   equal(makeKey().length, 5, "string length is 5");
@@ -99,11 +91,10 @@ test("isImageExist should return true if image isn't not_exist.png",
   isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
-function reloadTest(msg, filename, expected, disableReload) {
+function reloadTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {
     Mock.make("randPictureUrl", function() { return "ok.png"; });
     var img = (new Image());
-    if (disableReload) img.disableReload();
     img.setUrl(filename).show(wrkArea.id);
     doLater(function() {
       equal(img.getUrl(), expected, msg);
@@ -114,10 +105,11 @@ function reloadTest(msg, filename, expected, disableReload) {
 
 function isImageExistTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {
-    var img = (new Image()).disableReload().setUrl(filename);
-    img.show(wrkArea.id);
+    Mock.make("reloadImage", function() {});
+    var img = (new Image()).setUrl(filename).show(wrkArea.id);
     doLater(function() {
       equal(isImageExist(img.innerImg), expected, msg);
+      Mock.revert_all();
     });
   });
 }

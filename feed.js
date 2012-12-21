@@ -33,18 +33,16 @@ Image.prototype.show = function(parentId) {
   return this;
 }
 
-Image.prototype.disableReload = function() {
-  this.innerImg.onerror = null;
-  this.innerImg.onload = null;
-  return this;
-}
-
 Image.prototype.innerImgOnError = function() {
-  setRandPicture(this);
+  reloadImage(this);
 }
 
 Image.prototype.innerImgOnLoad = function() {
-  if (!isImageExist(this)) setRandPicture(this);
+  if (!isImageExist(this)) reloadImage(this);
+}
+
+function reloadImage(img) {
+  setRandPicture(img);
 }
 
 function setRandPicture(img) {
