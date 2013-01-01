@@ -76,7 +76,7 @@ test("insertFirst should insert element first when child node exists",
     e1.setAttribute("class", "to be second");
     insertFirst(wrkArea, e1);
     equal(wrkArea.childNodes.length, 1, "when child node exists");
-    
+
     var e2 = document.createElement("div");
     e2.setAttribute("class", "to be first");
     insertFirst(wrkArea, e2);
@@ -91,11 +91,23 @@ test("isImageExist should return true if image isn't not_exist.png",
   isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
+test("call nextImage() when load complete", function() {
+  withWorkArea(function(wrkArea) {
+    Mock.make("nextImage", function(img) { img.loaded = true; });
+    var img = (new Image()).setUrl("ok.png").show(wrkArea.id);
+    img.innerImg.loaded = false;
+    doLater(function() {
+      ok(img.innerImg.loaded, "nextImage() is called");
+      Mock.revert_all();
+      start();
+    });
+  });
+});
+
 function reloadTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {
     Mock.make("randPictureUrl", function() { return "ok.png"; });
-    var img = (new Image());
-    img.setUrl(filename).show(wrkArea.id);
+    var img = (new Image()).setUrl(filename).show(wrkArea.id);
     doLater(function() {
       equal(img.getUrl(), expected, msg);
       Mock.revert_all();
@@ -119,7 +131,7 @@ function doLater(func) {
   setTimeout(function() {
     func();
     start();
-  }, 100);
+  }, 300);
 }
 
 function withWorkArea(func) {
