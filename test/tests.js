@@ -104,6 +104,16 @@ test("call nextImage() when load complete", function() {
   });
 });
 
+test("toggle Start and Stop when startButton clicked", function() {
+  withWorkArea(function(wrkArea) {
+    btn = document.createElement("button");
+    btn.id = "startButton";
+    btn.value = "Start";
+    wrkArea.appendChild(btn);
+    equal(startButton().value, "Start", "default: Start");
+  });
+});
+
 function reloadTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {
     Mock.make("randPictureUrl", function() { return "ok.png"; });
@@ -156,4 +166,8 @@ function workArea() {
 
 function baseDiv() {
   return document.getElementById("qunit");
+}
+
+function startButton() {
+  return document.getElementById("startButton");
 }
