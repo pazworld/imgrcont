@@ -104,13 +104,19 @@ test("call nextImage() when load complete", function() {
   });
 });
 
-test("toggle Start and Stop when startButton clicked", function() {
+test("startButtonOnClick toggles startButton value Start and Stop", function() {
   withWorkArea(function(wrkArea) {
     btn = document.createElement("button");
     btn.id = "startButton";
     btn.value = "Start";
     wrkArea.appendChild(btn);
-    equal(startButton().value, "Start", "default: Start");
+    equal(startButton().value, "Start", "when value is Start");
+
+    startButtonOnClick(startButton());
+    equal(startButton().value, "Stop", "toggle value to Stop");
+
+    startButtonOnClick(startButton());
+    equal(startButton().value, "Start", "toggle value to Start");
   });
 });
 

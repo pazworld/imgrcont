@@ -45,6 +45,14 @@ Image.prototype.innerImgOnLoad = function() {
   nextImage(this);
 }
 
+function startButtonOnClick(obj) {
+  if (obj.value == "Stop") {
+    obj.value = "Start";
+    return;
+  }
+  obj.value = "Stop";
+}
+
 function reloadImage(img) {
   setRandPicture(img);
 }
