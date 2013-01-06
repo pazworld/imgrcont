@@ -1,3 +1,15 @@
+function startButtonOnClick() {
+  if (startButton().value == "Stop") {
+    startButton().value = "Start";
+    return;
+  }
+  startButton().value = "Stop";
+}
+
+function startButton() {
+  return document.getElementById("startButton");
+}
+
 function showRandPicture(parentId) {
   var parent = document.getElementById(parentId);
   if (!parent) return;
@@ -43,18 +55,6 @@ Image.prototype.innerImgOnError = function() {
 Image.prototype.innerImgOnLoad = function() {
   if (!isImageExist(this)) reloadImage(this);
   nextImage(this);
-}
-
-function startButtonOnClick() {
-  if (startButton().value == "Stop") {
-    startButton().value = "Start";
-    return;
-  }
-  startButton().value = "Stop";
-}
-
-function startButton() {
-  return document.getElementById("startButton");
 }
 
 function reloadImage(img) {
