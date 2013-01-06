@@ -104,7 +104,8 @@ test("call nextImage() when load complete", function() {
   });
 });
 
-test("startButtonOnClick toggles startButton value Start and Stop", function() {
+test("startButtonOnClick toggles startButton value Start and Stop",
+    function() {
   withWorkArea(function(wrkArea) {
     btn = document.createElement("button");
     btn.id = "startButton";
@@ -117,6 +118,28 @@ test("startButtonOnClick toggles startButton value Start and Stop", function() {
 
     startButtonOnClick();
     equal(startButton().value, "Start", "toggle value to Start");
+  });
+});
+
+test("startButtonIsRunning returns true if startButton value is 'Stop'",
+    function() {
+  withWorkArea(function(wrkArea) {
+    btn = document.createElement("button");
+    btn.id = "startButton";
+    btn.value = "Stop";
+    wrkArea.appendChild(btn);
+    ok(startButtonIsRunning(), "returns true");
+  });
+});
+
+test("startButtonIsRunning returns false if startButton value is 'Start'",
+    function() {
+  withWorkArea(function(wrkArea) {
+    btn = document.createElement("button");
+    btn.id = "startButton";
+    btn.value = "Start";
+    wrkArea.appendChild(btn);
+    ok(!startButtonIsRunning(), "returns false");
   });
 });
 

@@ -4,6 +4,11 @@ function startButtonOnClick() {
     return;
   }
   startButton().value = "Stop";
+  showRandPicture("picarea");
+}
+
+function startButtonIsRunning() {
+  return (startButton().value == "Stop");
 }
 
 function startButton() {
