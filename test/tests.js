@@ -112,10 +112,10 @@ test("startButtonOnClick toggles startButton value Start and Stop", function() {
     wrkArea.appendChild(btn);
     equal(startButton().value, "Start", "when value is Start");
 
-    startButtonOnClick(startButton());
+    startButtonOnClick();
     equal(startButton().value, "Stop", "toggle value to Stop");
 
-    startButtonOnClick(startButton());
+    startButtonOnClick();
     equal(startButton().value, "Start", "toggle value to Start");
   });
 });
@@ -172,8 +172,4 @@ function workArea() {
 
 function baseDiv() {
   return document.getElementById("qunit");
-}
-
-function startButton() {
-  return document.getElementById("startButton");
 }

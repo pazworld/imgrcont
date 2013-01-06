@@ -45,12 +45,16 @@ Image.prototype.innerImgOnLoad = function() {
   nextImage(this);
 }
 
-function startButtonOnClick(obj) {
-  if (obj.value == "Stop") {
-    obj.value = "Start";
+function startButtonOnClick() {
+  if (startButton().value == "Stop") {
+    startButton().value = "Start";
     return;
   }
-  obj.value = "Stop";
+  startButton().value = "Stop";
+}
+
+function startButton() {
+  return document.getElementById("startButton");
 }
 
 function reloadImage(img) {
