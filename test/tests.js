@@ -107,10 +107,7 @@ test("call nextImage() when load complete", function() {
 test("startButtonOnClick toggles startButton value Start and Stop",
     function() {
   withWorkArea(function(wrkArea) {
-    btn = document.createElement("button");
-    btn.id = "startButton";
-    btn.value = "Start";
-    wrkArea.appendChild(btn);
+    var btn = createStartButton(wrkArea, "Start");
     equal(startButton().value, "Start", "when value is Start");
 
     startButtonOnClick();
@@ -124,10 +121,7 @@ test("startButtonOnClick toggles startButton value Start and Stop",
 test("startButtonIsRunning returns true if startButton value is 'Stop'",
     function() {
   withWorkArea(function(wrkArea) {
-    btn = document.createElement("button");
-    btn.id = "startButton";
-    btn.value = "Stop";
-    wrkArea.appendChild(btn);
+    var btn = createStartButton(wrkArea, "Stop");
     ok(startButtonIsRunning(), "returns true");
   });
 });
@@ -135,10 +129,7 @@ test("startButtonIsRunning returns true if startButton value is 'Stop'",
 test("startButtonIsRunning returns false if startButton value is 'Start'",
     function() {
   withWorkArea(function(wrkArea) {
-    btn = document.createElement("button");
-    btn.id = "startButton";
-    btn.value = "Start";
-    wrkArea.appendChild(btn);
+    var btn = createStartButton(wrkArea, "Start");
     ok(!startButtonIsRunning(), "returns false");
   });
 });
@@ -163,6 +154,14 @@ function isImageExistTest(msg, filename, expected) {
       Mock.revert_all();
     });
   });
+}
+
+function createStartButton(parent, value) {
+  var btn = document.createElement("button");
+  btn.id = "startButton";
+  btn.value = value;
+  parent.appendChild(btn);
+  return btn;
 }
 
 function doLater(func) {
