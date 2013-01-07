@@ -6,7 +6,7 @@ test("Image should have image element wrapped by anchor", function() {
   equal(img.innerWrapper.tagName, "A", "wrapped by anchor element");
 });
 
-test("Image.setUrl should return that Image object itself.", function() {
+test("Image.setUrl should return that Image object itself", function() {
   var img = new Image();
   deepEqual(img.setUrl("ok.png"), img, "same Image object");
 });
@@ -26,7 +26,7 @@ test("Image should show as a child of specified element", function() {
   });
 });
 
-test("Image.show should return that Image object itself.", function() {
+test("Image.show should return that Image object itself", function() {
   withWorkArea(function(wrkArea) {
     var img = (new Image()).setUrl("ok.png");
     deepEqual(img.show(wrkArea.id), img, "same Image object");
