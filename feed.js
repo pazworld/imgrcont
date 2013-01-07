@@ -8,6 +8,7 @@ function startButtonOnClick() {
 }
 
 function startButtonIsRunning() {
+  if (!startButton()) return false;
   return (startButton().value == "Stop");
 }
 

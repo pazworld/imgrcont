@@ -134,6 +134,13 @@ test("startButtonIsRunning returns false if startButton value is 'Start'",
   });
 });
 
+test("startButtonIsRunning returns false if startButton is not exist",
+    function() {
+  withWorkArea(function(wrkArea) {
+    ok(!startButtonIsRunning(), "returns false");
+  });
+});
+
 function reloadTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {
     Mock.make("randPictureUrl", function() { return "ok.png"; });
