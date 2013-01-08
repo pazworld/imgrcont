@@ -1,4 +1,5 @@
 var START_BUTTON_ID = "startButton";
+var IMAGE_AREA_ID = "picarea";
 
 function startButtonOnClick() {
   if (startButton().value == "Stop") {
@@ -6,7 +7,7 @@ function startButtonOnClick() {
     return;
   }
   startButton().value = "Stop";
-  showRandPicture("picarea");
+  showRandPicture(IMAGE_AREA_ID);
 }
 
 function startButtonIsRunning() {
