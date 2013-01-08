@@ -1,3 +1,5 @@
+var START_BUTTON_ID = "startButton";
+
 function startButtonOnClick() {
   if (startButton().value == "Stop") {
     startButton().value = "Start";
@@ -13,7 +15,7 @@ function startButtonIsRunning() {
 }
 
 function startButton() {
-  return document.getElementById("startButton");
+  return document.getElementById(START_BUTTON_ID);
 }
 
 function showRandPicture(parentId) {
