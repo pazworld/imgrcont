@@ -91,7 +91,7 @@ test("isImageExist should return true if image isn't not_exist.png",
   isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
-test("call nextImage() when load complete", function() {
+test("call nextImage when load complete", function() {
   withWorkArea(function(wrkArea) {
     Mock.make("nextImage", function(img) { img.loaded = true; });
     var img = (new Image()).setUrl("ok.png").show(wrkArea.id);
