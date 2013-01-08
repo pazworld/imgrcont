@@ -94,10 +94,11 @@ test("isImageExist should return true if image isn't not_exist.png",
 test("call nextImage when load complete", function() {
   withWorkArea(function(wrkArea) {
     Mock.make("nextImage", function(img) { img.loaded = true; });
-    var img = (new Image()).setUrl("ok.png").show(wrkArea.id);
+    var img = (new Image()).setUrl("ok.png");
     img.innerImg.loaded = false;
+    img.show(wrkArea.id);
     doLater(function() {
-      ok(img.innerImg.loaded, "nextImage() is called");
+      ok(img.innerImg.loaded, "nextImage is called");
       Mock.revert_all();
       start();
     });
