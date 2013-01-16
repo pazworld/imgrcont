@@ -1,18 +1,20 @@
 var START_BUTTON_ID = "startButton";
 var IMAGE_AREA_ID = "picarea";
+var BUTTON_NOT_RUNNING = "Start";
+var BUTTON_IS_RUNNING = "Stop";
 
 function startButtonOnClick() {
-  if (startButton().value == "Stop") {
-    startButton().value = "Start";
+  if (startButton().value == BUTTON_IS_RUNNING) {
+    startButton().value = BUTTON_NOT_RUNNING;
     return;
   }
-  startButton().value = "Stop";
+  startButton().value = BUTTON_IS_RUNNING;
   showRandPicture(IMAGE_AREA_ID);
 }
 
 function startButtonIsRunning() {
   if (!startButton()) return false;
-  return (startButton().value == "Stop");
+  return (startButton().value == BUTTON_IS_RUNNING);
 }
 
 function startButton() {

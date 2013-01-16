@@ -7,20 +7,8 @@ test("cmdToggleStartButton should toggle button value "
     button.id = START_BUTTON_ID;
     wrkArea.appendChild(button);
     
-    var flgCallCmdShowNewImage = false;
-    Mock.make("cmdShowNewImage", function() { flgCallCmdShowNewImage = true; });
-    
-    button.value = "Stop";
-    cmdToggleStartButton();
-    equal(button.value, "Start", "button value Stop -> Start");
-    equal(flgCallCmdShowNewImage, false, "cmdShowNewImage is not called");
-    
-    button.value = "Start";
-    cmdToggleStartButton();
-    equal(button.value, "Stop", "button value Start -> Stop");
-    equal(flgCallCmdShowNewImage, true, "cmdShowNewImage is called");
-    
-    Mock.revert_all();
+    buttonToggleTest(BUTTON_IS_RUNNING, BUTTON_NOT_RUNNING, false);
+    buttonToggleTest(BUTTON_NOT_RUNNING, BUTTON_IS_RUNNING, true);
   });
 });
 
@@ -196,6 +184,24 @@ test("startButtonIsRunning returns false if startButton is not exist",
     ok(!startButtonIsRunning(), "returns false");
   });
 });
+
+function buttonToggleTest(before, after, called) {
+  var flgCallCmdShowNewImage = false;
+  Mock.make("cmdShowNewImage", function() {
+    flgCallCmdShowNewImage = true;
+  });
+  
+  var button = document.getElementById(START_BUTTON_ID);
+  button.value = before;
+  cmdToggleStartButton();
+  equal(button.value, after, "when button value " + before + " -> " + after);
+  
+  var msg = "not called";
+  if (called) msg = "called";
+  equal(flgCallCmdShowNewImage, called, "cmdShowNewImage is " + msg);
+  
+  Mock.revert_all();
+}
 
 function reloadTest(msg, filename, expected) {
   withWorkArea(function(wrkArea) {
