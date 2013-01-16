@@ -89,6 +89,18 @@ function insertFirst(parent, child) {
 }
 
 /*
+ * Commands
+ *   are the only part which modify system state.
+ *   are imperative, don't return any value.
+ */
+
+function cmdShowRandomImage(img) {
+  var url = randPictureUrl();
+  img.setAttribute("src", url);
+  img.parentNode.setAttribute("href", url);
+}
+
+/*
  * Queries
  *   inspect system state or create some value, and return them.
  *   are referential transparent.

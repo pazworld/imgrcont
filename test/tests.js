@@ -1,5 +1,14 @@
 var WORK_AREA_ID = "workarea";
 
+test("cmdShowRandomImage should set random url to image", function() {
+  var img = createImage();
+  cmdShowRandomImage(img);
+  var url1 = img.getAttribute("src");
+  cmdShowRandomImage(img);
+  var url2 = img.getAttribute("src");
+  notEqual(url1, url2, "URL is random");
+});
+
 test("createImage should return image element wrapped by anchor.", function() {
   var img = createImage();
   equal(img.tagName, "IMG", "have image element");
