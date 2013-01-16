@@ -108,3 +108,20 @@ function isImageExist(img) {
   if (img.width == 161 && img.height == 81) return false;
   return true;
 }
+
+/*
+ * Queries
+ *   inspect system state or create some value, and return them.
+ *   are referential transparent.
+ */
+
+function createImage() {
+  var img = document.createElement("img");
+  img.setAttribute("class", "show");
+  
+  var anchor = document.createElement("a");
+  anchor.setAttribute("target", "_blank");
+  anchor.appendChild(img);
+  
+  return img;
+}

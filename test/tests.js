@@ -1,9 +1,9 @@
 var WORK_AREA_ID = "workarea";
 
-test("Image should have image element wrapped by anchor", function() {
-  var img = new Image();
-  equal(img.innerImg.tagName, "IMG", "have image element");
-  equal(img.innerWrapper.tagName, "A", "wrapped by anchor element");
+test("createImage should return image element wrapped by anchor.", function() {
+  var img = createImage();
+  equal(img.tagName, "IMG", "have image element");
+  equal(img.parentNode.tagName, "A", "wrapped by anchor element");
 });
 
 test("Image.setUrl should return that Image object itself", function() {
