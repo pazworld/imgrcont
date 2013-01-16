@@ -1,5 +1,28 @@
 var WORK_AREA_ID = "workarea";
 
+test("image shold be reload when error", function() {
+  withWorkArea(function(wrkArea) {
+    var div = document.createElement("div");
+    div.id = IMAGE_AREA_ID;
+    wrkArea.appendChild(div);
+    
+    var numCalled = 0;
+    Mock.make("randPictureUrl", function() {
+      ++numCalled;
+      if (numCalled == 1) return "error.png";
+      if (numCalled == 2) return "ok.png";
+    });
+    //Mock.make("imageOnLoad", function() {});
+    
+    cmdShowNewImage();
+    doLater(function() {
+      var url = div.firstChild.firstChild.getAttribute("src");
+      equal(url, "ok.png", "is reloaded");
+      Mock.revert_all();
+    });
+  });
+});
+
 test("cmdToggleStartButton should toggle button value "
     + "and call cmdShowNewImage.", function() {
   withWorkArea(function(wrkArea) {

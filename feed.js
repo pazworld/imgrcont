@@ -1,3 +1,7 @@
+/*
+ * Constants
+ */
+
 var START_BUTTON_ID = "startButton";
 var IMAGE_AREA_ID = "picarea";
 var BUTTON_NOT_RUNNING = "Start";
@@ -91,6 +95,15 @@ function insertFirst(parent, child) {
 }
 
 /*
+ * Events
+ *   are called from UI or system events.
+ */
+
+function imageOnError() {
+  cmdSetImageRandomUrl(this);
+}
+
+/*
  * Commands
  *   are the only part which modify system state.
  *   are imperative, don't return any value.
@@ -114,7 +127,7 @@ function cmdShowNewImage() {
   } else {
     imageArea.insertBefore(img.parentNode, imageArea.firstChild);
   }
-  //img.onerror = imageOnError;
+  img.onerror = imageOnError;
   //img.onload = imageOnLoad;
   cmdSetImageRandomUrl(img);
 }
