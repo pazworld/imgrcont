@@ -1,10 +1,10 @@
 var WORK_AREA_ID = "workarea";
 
-test("cmdShowRandomImage should set random url to image", function() {
+test("cmdSetImageRandomUrl should set random url to image", function() {
   var img = createImage();
-  cmdShowRandomImage(img);
+  cmdSetImageRandomUrl(img);
   var url1 = img.getAttribute("src");
-  cmdShowRandomImage(img);
+  cmdSetImageRandomUrl(img);
   var url2 = img.getAttribute("src");
   notEqual(url1, url2, "URL is random");
 });

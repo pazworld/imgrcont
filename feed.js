@@ -94,7 +94,7 @@ function insertFirst(parent, child) {
  *   are imperative, don't return any value.
  */
 
-function cmdShowRandomImage(img) {
+function cmdSetImageRandomUrl(img) {
   var url = randPictureUrl();
   img.setAttribute("src", url);
   img.parentNode.setAttribute("href", url);
