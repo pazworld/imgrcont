@@ -1,16 +1,37 @@
 var WORK_AREA_ID = "workarea";
 
+test("cmdToggleStartButton should toggle button value "
+    + "and call cmdShowNewImage.", function() {
+  withWorkArea(function(wrkArea) {
+    var button = document.createElement("button");
+    button.id = START_BUTTON_ID;
+    wrkArea.appendChild(button);
+    
+    var flgCallCmdShowNewImage = false;
+    Mock.make("cmdShowNewImage", function() { flgCallCmdShowNewImage = true; });
+    
+    button.value = "Stop";
+    cmdToggleStartButton();
+    equal(button.value, "Start", "button value Stop -> Start");
+    equal(flgCallCmdShowNewImage, false, "cmdShowNewImage is not called");
+  });
+});
+
 test("cmdShowNewImage should insert image first when other image exist",
     function() {
   withWorkArea(function(wrkArea) {
+    console.log("cmdShowNewImageTest");
     var div = document.createElement("div");
     div.id = IMAGE_AREA_ID;
     wrkArea.appendChild(div);
+    console.log(wrkArea.firstChild);
     
     cmdShowNewImage();
+    console.log("childNodes.length: " + div.childNodes.length);
     var firstUrl1 = div.firstChild.getAttribute("href");
     
     cmdShowNewImage();
+    console.log("childNodes.length: " + div.childNodes.length);
     var firstUrl2 = div.firstChild.getAttribute("href");
     
     notEqual(firstUrl1, firstUrl2, "inserted first");

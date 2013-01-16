@@ -94,8 +94,20 @@ function insertFirst(parent, child) {
  *   are imperative, don't return any value.
  */
 
+function cmdToggleStartButton() {
+  var startButton = document.getElementById(START_BUTTON_ID);
+  if (startButton.value == "Stop") {
+    startButton.value = "Start";
+    return;
+  }
+  startButton.value = "Stop";
+  cmdShowNextImage();
+}
+
 function cmdShowNewImage() {
+  console.log("cmdShowNewImage");
   var imageArea = document.getElementById(IMAGE_AREA_ID);
+  console.log(imageArea);
   var img = createImage();
   if (imageArea.childNodes.length == 0) {
     imageArea.appendChild(img.parentNode);
