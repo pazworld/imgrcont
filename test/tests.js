@@ -6,6 +6,27 @@ test("createImage should return image element wrapped by anchor.", function() {
   equal(img.parentNode.tagName, "A", "wrapped by anchor element");
 });
 
+test("isImageExist should return true if image isn't not_exist.png",
+    function() {
+  isImageExistTest("check image exist", "ok.png", true);
+  isImageExistTest("check image not exist", "not_exist.png", false);
+});
+
+test("randPictureUrl should return URL of random picture of imgur", function() {
+  notEqual(randPictureUrl(), randPictureUrl(), "URL is random");
+  ok(randPictureUrl().match(/imgur/i), "URL is imgur");
+});
+
+test("makeKey should return random string which length is 5", function() {
+  notEqual(makeKey(), makeKey(), "string is random");
+  equal(makeKey().length, 5, "string length is 5");
+});
+
+test("randChar should return random string which length is 1", function() {
+  notEqual(randChar(), randChar(), "string is random");
+  equal(randChar().length, 1, "string length is 1");
+});
+
 test("Image.setUrl should return that Image object itself", function() {
   var img = new Image();
   deepEqual(img.setUrl("ok.png"), img, "same Image object");
@@ -41,16 +62,6 @@ test("Image should be reloaded when not exist", function() {
   reloadTest("reloaded", "not_exist.png", "ok.png");
 });
 
-test("makeKey should return random string which length is 5", function() {
-  notEqual(makeKey(), makeKey(), "string is random");
-  equal(makeKey().length, 5, "string length is 5");
-});
-
-test("randChar should return random string which length is 1", function() {
-  notEqual(randChar(), randChar(), "string is random");
-  equal(randChar().length, 1, "string length is 1");
-});
-
 test("showRandPicture should show random picture of imgur", function() {
   withWorkArea(function(wrkArea) {
     showRandPicture(wrkArea.id);
@@ -83,12 +94,6 @@ test("insertFirst should insert element first when child node exists",
     equal(wrkArea.childNodes[0].getAttribute("class"),
       "to be first", "inserted first");
   });
-});
-
-test("isImageExist should return true if image isn't not_exist.png",
-    function() {
-  isImageExistTest("check image exist", "ok.png", true);
-  isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
 test("call nextImage when load complete", function() {

@@ -80,33 +80,12 @@ function setRandPicture(img) {
   img.parentNode.setAttribute("href", url);
 }
 
-function randPictureUrl() {
-  return "http://i.imgur.com/" + makeKey() + ".jpg";
-}
-
-function makeKey() {
-  return [1, 2, 3, 4, 5].map(randChar).join("");
-}
-
-function randChar() {
-  var chars="0123456789"
-    + "abcdefghijklmnopqrstuvwxyz"
-    + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  index = parseInt(Math.random() * chars.length);
-  return chars.charAt(index);
-}
-
 function insertFirst(parent, child) {
   if (parent.childNodes.length == 0) {
     parent.appendChild(child);
   } else {
     parent.insertBefore(child, parent.firstChild);
   }
-}
-
-function isImageExist(img) {
-  if (img.width == 161 && img.height == 81) return false;
-  return true;
 }
 
 /*
@@ -124,4 +103,25 @@ function createImage() {
   anchor.appendChild(img);
   
   return img;
+}
+
+function isImageExist(img) {
+  if (img.width == 161 && img.height == 81) return false;
+  return true;
+}
+
+function randPictureUrl() {
+  return "http://i.imgur.com/" + makeKey() + ".jpg";
+}
+
+function makeKey() {
+  return [1, 2, 3, 4, 5].map(randChar).join("");
+}
+
+function randChar() {
+  var chars="0123456789"
+    + "abcdefghijklmnopqrstuvwxyz"
+    + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  index = parseInt(Math.random() * chars.length);
+  return chars.charAt(index);
 }
