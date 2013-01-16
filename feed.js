@@ -101,13 +101,11 @@ function cmdToggleStartButton() {
     return;
   }
   startButton.value = "Stop";
-  cmdShowNextImage();
+  cmdShowNewImage();
 }
 
 function cmdShowNewImage() {
-  console.log("cmdShowNewImage");
   var imageArea = document.getElementById(IMAGE_AREA_ID);
-  console.log(imageArea);
   var img = createImage();
   if (imageArea.childNodes.length == 0) {
     imageArea.appendChild(img.parentNode);
