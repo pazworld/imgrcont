@@ -159,13 +159,10 @@ function reloadTest(msg, filename, expected) {
 }
 
 function isImageExistTest(msg, filename, expected) {
-  withWorkArea(function(wrkArea) {
-    Mock.make("reloadImage", function() {});
-    var img = (new Image()).setUrl(filename).show(wrkArea.id);
-    doLater(function() {
-      equal(isImageExist(img.innerImg), expected, msg);
-      Mock.revert_all();
-    });
+  var img = createImage();
+  img.setAttribute("src", filename);
+  doLater(function() {
+    equal(isImageExist(img), expected, msg);
   });
 }
 
