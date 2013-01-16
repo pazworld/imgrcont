@@ -19,13 +19,11 @@ test("cmdShowNewImage should insert image first when other image exist",
     div.id = IMAGE_AREA_ID;
     wrkArea.appendChild(div);
     
-    cmdShowNewImage();
-    var firstUrl1 = div.firstChild.getAttribute("href");
-    
-    cmdShowNewImage();
-    var firstUrl2 = div.firstChild.getAttribute("href");
-    
-    notEqual(firstUrl1, firstUrl2, "inserted first");
+    var firstUrlInserted = function() {
+      cmdShowNewImage();
+      return div.firstChild.getAttribute("href");
+    }
+    notEqual(firstUrlInserted(), firstUrlInserted(), "inserted first");
   });
 });
 
