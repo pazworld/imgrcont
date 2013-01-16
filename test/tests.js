@@ -2,10 +2,7 @@ var WORK_AREA_ID = "workarea";
 
 test("image shold be reload when error", function() {
   withWorkArea(function(wrkArea) {
-    var div = document.createElement("div");
-    div.id = IMAGE_AREA_ID;
-    wrkArea.appendChild(div);
-    
+    var imageArea = createImageArea(wrkArea);
     var numCalled = 0;
     Mock.make("randPictureUrl", function() {
       ++numCalled;
@@ -16,7 +13,7 @@ test("image shold be reload when error", function() {
     
     cmdShowNewImage();
     doLater(function() {
-      var url = div.firstChild.firstChild.getAttribute("src");
+      var url = imageArea.firstChild.firstChild.getAttribute("src");
       equal(url, "ok.png", "is reloaded");
       Mock.revert_all();
     });
@@ -38,24 +35,25 @@ test("cmdToggleStartButton should toggle button value "
 test("cmdShowNewImage should insert image first when other image exist",
     function() {
   withWorkArea(function(wrkArea) {
-    var div = document.createElement("div");
-    div.id = IMAGE_AREA_ID;
-    wrkArea.appendChild(div);
-    
+    var imageArea = createImageArea(wrkArea);
     var firstUrlInserted = function() {
       cmdShowNewImage();
-      return div.firstChild.getAttribute("href");
+      return imageArea.firstChild.getAttribute("href");
     }
-    notEqual(firstUrlInserted(), firstUrlInserted(), "inserted first");
+    var url1 = firstUrlInserted();
+    var url2 = firstUrlInserted();
+    notEqual(url1, url2, "inserted first");
   });
 });
 
 test("cmdSetImageRandomUrl should set random url to image", function() {
   var img = createImage();
-  cmdSetImageRandomUrl(img);
-  var url1 = img.getAttribute("src");
-  cmdSetImageRandomUrl(img);
-  var url2 = img.getAttribute("src");
+  var assignedUrl = function() {
+    cmdSetImageRandomUrl(img);
+    return img.getAttribute("src");
+  }
+  var url1 = assignedUrl();
+  var url2 = assignedUrl();
   notEqual(url1, url2, "URL is random");
 });
 
@@ -281,4 +279,11 @@ function workArea() {
 
 function baseDiv() {
   return document.getElementById("qunit");
+}
+
+function createImageArea(parent) {
+  var div = document.createElement("div");
+  div.id = IMAGE_AREA_ID;
+  parent.appendChild(div);
+  return div;
 }
