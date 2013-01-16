@@ -1,5 +1,22 @@
 var WORK_AREA_ID = "workarea";
 
+test("cmdShowNewImage should insert image first when other image exist",
+    function() {
+  withWorkArea(function(wrkArea) {
+    var div = document.createElement("div");
+    div.id = IMAGE_AREA_ID;
+    wrkArea.appendChild(div);
+    
+    cmdShowNewImage();
+    var firstUrl1 = div.firstChild.getAttribute("href");
+    
+    cmdShowNewImage();
+    var firstUrl2 = div.firstChild.getAttribute("href");
+    
+    notEqual(firstUrl1, firstUrl2, "inserted first");
+  });
+});
+
 test("cmdSetImageRandomUrl should set random url to image", function() {
   var img = createImage();
   cmdSetImageRandomUrl(img);

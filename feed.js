@@ -94,6 +94,19 @@ function insertFirst(parent, child) {
  *   are imperative, don't return any value.
  */
 
+function cmdShowNewImage() {
+  var imageArea = document.getElementById(IMAGE_AREA_ID);
+  var img = createImage();
+  if (imageArea.childNodes.length == 0) {
+    imageArea.appendChild(img.parentNode);
+  } else {
+    imageArea.insertBefore(img.parentNode, imageArea.firstChild);
+  }
+  //img.onerror = imageOnError;
+  //img.onload = imageOnLoad;
+  cmdSetImageRandomUrl(img);
+}
+
 function cmdSetImageRandomUrl(img) {
   var url = randPictureUrl();
   img.setAttribute("src", url);
