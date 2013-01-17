@@ -10,6 +10,24 @@ test("image should be reload when not_exist", function() {
     function(img) { img.onload = imageOnLoad; });
 });
 
+test("new image should be inserted when load successfully", function() {
+  makeWorkArea();
+  var wrkArea = workArea();
+  var imageArea = createImageArea(wrkArea);
+  var img = createImage();
+  imageArea.appendChild(img);
+  var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
+  var cmdShowNewImageCounter = 0;
+  Mock.make("cmdShowNewImage", function() { cmdShowNewImageCounter++; });
+  img.onload = imageOnLoad;
+  img.setAttribute("src", "ok.png");
+  doLater(function() {
+    notEqual(cmdShowNewImageCounter, 0, "new image is loaded");
+    Mock.revert_all();
+    removeWorkArea();
+  });
+});
+
 test("cmdToggleStartButton should toggle button value "
     + "and call cmdShowNewImage.", function() {
   buttonToggleTest(BUTTON_IS_RUNNING, BUTTON_NOT_RUNNING, false);
@@ -264,11 +282,11 @@ function isImageExistTest(msg, filename, expected) {
 }
 
 function createStartButton(parent, value) {
-  var btn = document.createElement("button");
-  btn.id = "startButton";
-  btn.value = value;
-  parent.appendChild(btn);
-  return btn;
+  var button = document.createElement("button");
+  button.id = START_BUTTON_ID;
+  button.value = value;
+  parent.appendChild(button);
+  return button;
 }
 
 function doLater(func) {
