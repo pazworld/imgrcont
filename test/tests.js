@@ -3,19 +3,12 @@ var WORK_AREA_ID = "workarea";
 test("image shold be reload when error", function() {
   withWorkArea(function(wrkArea) {
     var imageArea = createImageArea(wrkArea);
-    var numCalled = 0;
-    Mock.make("randPictureUrl", function() {
-      ++numCalled;
-      if (numCalled == 1) return "error.png";
-      if (numCalled == 2) return "ok.png";
-    });
-    //Mock.make("imageOnLoad", function() {});
-    
-    cmdShowNewImage();
+    var img = createImage();
+    imageArea.appendChild(img);
+    img.onerror = imageOnError;
+    img.setAttribute("src", "error.png");
     doLater(function() {
-      var url = imageArea.firstChild.firstChild.getAttribute("src");
-      equal(url, "ok.png", "is reloaded");
-      Mock.revert_all();
+      notEqual(img.getAttribute("src"), "error.png", "reloaded");
     });
   });
 });
