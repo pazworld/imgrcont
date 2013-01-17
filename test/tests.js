@@ -1,32 +1,13 @@
 var WORK_AREA_ID = "workarea";
 
 test("image shold be reload when error", function() {
-  withWorkArea(function(wrkArea) {
-    var imageArea = createImageArea(wrkArea);
-    var img = createImage();
-    imageArea.appendChild(img);
-    img.onerror = imageOnError;
-    img.setAttribute("src", "error.png");
-    doLater(function() {
-      notEqual(img.getAttribute("src"), "error.png", "reloaded");
-    });
-  });
+  imageEventTest("error.png",
+    function(img) { img.onerror = imageOnError; });
 });
 
 test("image should be reload when not_exist", function() {
-  withWorkArea(function(wrkArea) {
-    var imageArea = createImageArea(wrkArea);
-    var img = createImage();
-    imageArea.appendChild(img);
-    var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
-    Mock.make("cmdShowNewImage", function() {});
-    img.onload = imageOnLoad;
-    img.setAttribute("src", "not_exist.png");
-    doLater(function() {
-      notEqual(img.getAttribute("src"), "not_exist.png", "reloaded");
-      Mock.revert_all();
-    });
-  });
+  imageEventTest("not_exist.png",
+    function(img) { img.onload = imageOnLoad; });
 });
 
 test("cmdToggleStartButton should toggle button value "
@@ -227,6 +208,22 @@ test("startButtonIsRunning returns false if startButton is not exist",
     ok(!startButtonIsRunning(), "returns false");
   });
 });
+
+function imageEventTest(filename, funcForImage) {
+  withWorkArea(function(wrkArea) {
+    var imageArea = createImageArea(wrkArea);
+    var img = createImage();
+    imageArea.appendChild(img);
+    var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
+    Mock.make("cmdShowNewImage", function() {});
+    funcForImage(img);
+    img.setAttribute("src", filename);
+    doLater(function() {
+      notEqual(img.getAttribute("src"), filename, "reloaded");
+      Mock.revert_all();
+    });
+  });
+}
 
 function buttonToggleTest(before, after, called) {
   withWorkArea(function(wrkArea) {
