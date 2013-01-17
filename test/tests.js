@@ -15,14 +15,8 @@ test("image shold be reload when error", function() {
 
 test("cmdToggleStartButton should toggle button value "
     + "and call cmdShowNewImage.", function() {
-  withWorkArea(function(wrkArea) {
-    var button = document.createElement("button");
-    button.id = START_BUTTON_ID;
-    wrkArea.appendChild(button);
-    
-    buttonToggleTest(BUTTON_IS_RUNNING, BUTTON_NOT_RUNNING, false);
-    buttonToggleTest(BUTTON_NOT_RUNNING, BUTTON_IS_RUNNING, true);
-  });
+  buttonToggleTest(BUTTON_IS_RUNNING, BUTTON_NOT_RUNNING, false);
+  buttonToggleTest(BUTTON_NOT_RUNNING, BUTTON_IS_RUNNING, true);
 });
 
 test("cmdShowNewImage should insert image first when other image exist",
@@ -219,21 +213,26 @@ test("startButtonIsRunning returns false if startButton is not exist",
 });
 
 function buttonToggleTest(before, after, called) {
-  var flgCallCmdShowNewImage = false;
-  Mock.make("cmdShowNewImage", function() {
-    flgCallCmdShowNewImage = true;
+  withWorkArea(function(wrkArea) {
+    var button = document.createElement("button");
+    button.id = START_BUTTON_ID;
+    wrkArea.appendChild(button);
+    
+    var flgCallCmdShowNewImage = false;
+    Mock.make("cmdShowNewImage", function() {
+      flgCallCmdShowNewImage = true;
+    });
+    
+    button.value = before;
+    cmdToggleStartButton();
+    equal(button.value, after, "when button value " + before + " -> " + after);
+    
+    var msg = "not called";
+    if (called) msg = "called";
+    equal(flgCallCmdShowNewImage, called, "cmdShowNewImage is " + msg);
+    
+    Mock.revert_all();
   });
-  
-  var button = document.getElementById(START_BUTTON_ID);
-  button.value = before;
-  cmdToggleStartButton();
-  equal(button.value, after, "when button value " + before + " -> " + after);
-  
-  var msg = "not called";
-  if (called) msg = "called";
-  equal(flgCallCmdShowNewImage, called, "cmdShowNewImage is " + msg);
-  
-  Mock.revert_all();
 }
 
 function reloadTest(msg, filename, expected) {
