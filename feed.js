@@ -103,6 +103,16 @@ function imageOnError() {
   cmdSetImageRandomUrl(this);
 }
 
+function imageOnLoad() {
+  if (!isImageExist(this)) {
+    cmdSetImageRandomUrl(this);
+    return;
+  }
+  var startButton = document.getElementById(START_BUTTON_ID);
+  if (!startButton) return;
+  if (startButton.value == BUTTON_IS_RUNNING) cmdShowNewImage();
+}
+
 /*
  * Commands
  *   are the only part which modify system state.
@@ -125,7 +135,7 @@ function cmdShowNewImage() {
   imageArea.insertFirst = insertFirst2;
   imageArea.insertFirst(img.parentNode);
   img.onerror = imageOnError;
-  //img.onload = imageOnLoad;
+  img.onload = imageOnLoad;
   cmdSetImageRandomUrl(img);
 }
 

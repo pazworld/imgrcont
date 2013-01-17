@@ -13,6 +13,22 @@ test("image shold be reload when error", function() {
   });
 });
 
+test("image should be reload when not_exist", function() {
+  withWorkArea(function(wrkArea) {
+    var imageArea = createImageArea(wrkArea);
+    var img = createImage();
+    imageArea.appendChild(img);
+    var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
+    Mock.make("cmdShowNewImage", function() {});
+    img.onload = imageOnLoad;
+    img.setAttribute("src", "not_exist.png");
+    doLater(function() {
+      notEqual(img.getAttribute("src"), "not_exist.png", "reloaded");
+      Mock.revert_all();
+    });
+  });
+});
+
 test("cmdToggleStartButton should toggle button value "
     + "and call cmdShowNewImage.", function() {
   buttonToggleTest(BUTTON_IS_RUNNING, BUTTON_NOT_RUNNING, false);
@@ -214,16 +230,12 @@ test("startButtonIsRunning returns false if startButton is not exist",
 
 function buttonToggleTest(before, after, called) {
   withWorkArea(function(wrkArea) {
-    var button = document.createElement("button");
-    button.id = START_BUTTON_ID;
-    wrkArea.appendChild(button);
-    
     var flgCallCmdShowNewImage = false;
     Mock.make("cmdShowNewImage", function() {
       flgCallCmdShowNewImage = true;
     });
     
-    button.value = before;
+    var button = createStartButton(wrkArea, before);
     cmdToggleStartButton();
     equal(button.value, after, "when button value " + before + " -> " + after);
     
