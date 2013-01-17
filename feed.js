@@ -121,12 +121,9 @@ function cmdToggleStartButton() {
 
 function cmdShowNewImage() {
   var imageArea = document.getElementById(IMAGE_AREA_ID);
+  imageArea.insertFirst = insertFirst2;
   var img = createImage();
-  if (imageArea.childNodes.length == 0) {
-    imageArea.appendChild(img.parentNode);
-  } else {
-    imageArea.insertBefore(img.parentNode, imageArea.firstChild);
-  }
+  imageArea.insertFirst(img.parentNode);
   img.onerror = imageOnError;
   //img.onload = imageOnLoad;
   cmdSetImageRandomUrl(img);
@@ -136,6 +133,19 @@ function cmdSetImageRandomUrl(img) {
   var url = randPictureUrl();
   img.setAttribute("src", url);
   img.parentNode.setAttribute("href", url);
+}
+
+/*
+ * Methods
+ *   are attached to objects so that giving some ability.
+ */
+
+function insertFirst2(child) {
+  if (this.childNodes.length == 0) {
+    this.appendChild(child);
+    return;
+  }
+  this.insertBefore(child, this.firstChild);
 }
 
 /*
