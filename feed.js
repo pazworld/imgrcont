@@ -111,18 +111,18 @@ function imageOnError() {
 
 function cmdToggleStartButton() {
   var startButton = document.getElementById(START_BUTTON_ID);
-  if (startButton.value == "Stop") {
-    startButton.value = "Start";
+  if (startButton.value == BUTTON_IS_RUNNING) {
+    startButton.value = BUTTON_NOT_RUNNING;
     return;
   }
-  startButton.value = "Stop";
+  startButton.value = BUTTON_IS_RUNNING;
   cmdShowNewImage();
 }
 
 function cmdShowNewImage() {
+  var img = createImage();
   var imageArea = document.getElementById(IMAGE_AREA_ID);
   imageArea.insertFirst = insertFirst2;
-  var img = createImage();
   imageArea.insertFirst(img.parentNode);
   img.onerror = imageOnError;
   //img.onload = imageOnLoad;
