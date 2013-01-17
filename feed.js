@@ -99,6 +99,10 @@ function insertFirst(parent, child) {
  *   are called from UI or system events.
  */
 
+function startButtonClicked() {
+  cmdToggleStartButton();
+}
+
 function imageOnError() {
   cmdSetImageRandomUrl(this);
 }
