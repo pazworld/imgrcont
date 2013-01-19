@@ -49,7 +49,7 @@ function cmdToggleStartButton() {
 function cmdShowNewImage() {
   var img = createImage();
   var imageArea = document.getElementById(IMAGE_AREA_ID);
-  imageArea.insertFirst = insertFirst2;
+  imageArea.insertFirst = insertFirst;
   imageArea.insertFirst(img.parentNode);
   img.onerror = imageOnError;
   img.onload = imageOnLoad;
@@ -67,7 +67,7 @@ function cmdSetImageRandomUrl(img) {
  *   are attached to objects so that giving some ability.
  */
 
-function insertFirst2(child) {
+function insertFirst(child) {
   if (this.childNodes.length == 0) {
     this.appendChild(child);
     return;

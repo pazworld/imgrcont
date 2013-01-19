@@ -59,21 +59,21 @@ test("cmdSetImageRandomUrl should set random url to image", function() {
   notEqual(url1, url2, "URL is random");
 });
 
-test("insertFirst2 should insert element when no child node", function() {
+test("insertFirst should insert element when no child node", function() {
   withWorkArea(function(wrkArea) {
     var e = document.createElement("div");
-    wrkArea.insertFirst = insertFirst2;
+    wrkArea.insertFirst = insertFirst;
     wrkArea.insertFirst(e);
     equal(wrkArea.childNodes.length, 1, "appended");
   });
 });
 
-test("insertFirst2 should insert element first when child node exists",
+test("insertFirst should insert element first when child node exists",
     function() {
   withWorkArea(function(wrkArea) {
     var e1 = document.createElement("div");
     var e2 = document.createElement("div");
-    wrkArea.insertFirst = insertFirst2;
+    wrkArea.insertFirst = insertFirst;
     wrkArea.insertFirst(e1);
     wrkArea.insertFirst(e2);
     equal(wrkArea.firstChild, e2, "inserted first");
