@@ -1,43 +1,54 @@
 function startButtonClicked2() {
-  lift(document)
+  box(document)
     .do(ifRunning(toStop))
     .do(ifNotRunning(toStart));
 }
 
+function cmdShowNewImage2 {
+  var img = box(createImage()).do(setImageCallback).value;
+  box(document).do(getImageArea).do(insertFirst(img));
+  cmdSetImageRandomUrl(img);
+}
+
 /*
  * Monadic Functions
- *   return value with M().
+ *   return value with MBox().
  */
 
-function M(a) {
+function MBox(a) {
   this.value = a;
   this.do = function(f) { return f(this.value); };
 }
 
-function lift(a) { return new M(a); }
+function box(a) { return new MBox(a); }
 
-// for start, stop
+// to start and stop
 
 function toStart(d) {
-  d.do(setButtonNotRunning);
+  setButtonNotRunning(d);
   cmdShowNewImage();
-  return lift(d);
+  return box(d);
 }
 
 function toStop(d) {
-  return d.do(setButtonRunning);
+  return setButtonRunning(d);
 }
 
 // for startButton
 
 function setButtonRunning(d) {
-  d.do(getStartButton).do(setValue(BUTTON_IS_RUNNING));
-  return lift(d);
+  return box(d).do(setButtonValue(BUTTON_IS_RUNNING));
 }
 
 function setButtonNotRunning(d) {
-  d.do(getStartButton).do(setValue(BUTTON_NOT_RUNNING));
-  return lift(d);
+  return box(d).do(setButtonValue(BUTTON_NOT_RUNNING);
+}
+
+function setButtonValue(value) {
+  return function(d) {
+    box(d).do(getStartButton).do(setValue(value));
+    return box(d);
+  };
 }
 
 function ifRunning(f) {
@@ -57,23 +68,35 @@ function isButtonRunning(d) {
 }
 
 function getStartButton(d) {
-  return d.do(getElementById(START_BUTTON_ID));
+  return box(d.getElementById(START_BUTTON_ID));
+}
+
+// for image
+
+function setImageCallback(img) {
+  img.onerror = imageOnError;
+  img.onload = imageOnLoad;
+  return box(img);
 }
 
 // general functions
 
-function getElementById(id) {
-  return function(d) { return lift(d.getElementById(id)); };
-}
-
 function getValue() {
-  return function(e) { return lift(e.value); };
+  return function(e) { return box(e.value); };
 }
 
 function setValue(value) {
-  return function(e) { e.value = value; };
+  return function(e) { e.value = value; return box(e); };
 }
 
 function equal(value) {
-  return function(m) { return lift(m.value == value); };
+  return function(m) { return box(m.value == value); };
+}
+
+// for test
+
+function withWork(f) {
+  var d = box(document).do(setUpWork);
+  f(d.value);
+  d.do(clearWork);
 }
