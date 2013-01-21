@@ -11,8 +11,8 @@ function cmdShowNewImage2 {
 }
 
 /*
- * Monadic Functions
- *   return value with MBox().
+ * Logic composer
+ *   compose functions.
  */
 
 function MBox(a) {
@@ -21,6 +21,11 @@ function MBox(a) {
 }
 
 function box(a) { return new MBox(a); }
+
+/*
+ * Logics
+ *   are the place for business/domain logics.
+ */
 
 // to start and stop
 
@@ -51,9 +56,25 @@ function setButtonValue(value) {
   };
 }
 
+test("ifRunning should call given function when running", function() {
+  withWork(function(d) {
+    var counterRunning = new Counter();
+    var counterNotRunning = new Counter();
+    box(document)
+      .do(addStartButton)
+      .do(setButtonNotRunning)
+      .do(ifRunning(counterNotRunning.countUp))
+      .do(setButtonRunning)
+      .do(ifRunning(counterRunning.countUp));
+    equal(counterNotRunning.count, 0, "not called when not running");
+    notEqual(counterRunning.count, 0, "called when running");
+  });
+});
+
 function ifRunning(f) {
   return function(d) {
-     if (isButtonRunning(d).value) return f(d);
+     if (isButtonRunning(d).value) f(d);
+     return box(d);
   }
 }
 
@@ -64,7 +85,7 @@ function ifNotRunning(f) {
 }
 
 function isButtonRunning(d) {
-  return d.do(getStartButton).do(getValue).do(equal(BUTTON_IS_RUNNING));
+  return getStartButton(d).do(getValue).do(equal(BUTTON_IS_RUNNING));
 }
 
 function getStartButton(d) {
@@ -96,7 +117,12 @@ function equal(value) {
 // for test
 
 function withWork(f) {
-  var d = box(document).do(setUpWork);
+  var d = box(document).do(setupWork);
   f(d.value);
   d.do(clearWork);
+}
+
+function Counter() {
+  this.count = 0;
+  this.countUp = function() { count++; }
 }
