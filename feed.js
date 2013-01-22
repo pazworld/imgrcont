@@ -63,6 +63,21 @@ function cmdSetImageRandomUrl(img) {
 }
 
 /*
+ * Logic composer
+ *   make boxing value.
+ *   compose functions.
+ */
+
+function MBox(a) {
+  this.value = a;
+  this.do = function(f) { return f(this.value); };
+}
+
+function box(a) {
+  return new MBox(a);
+}
+
+/*
  * Methods
  *   are attached to objects so that giving some ability.
  */

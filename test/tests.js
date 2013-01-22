@@ -59,6 +59,18 @@ test("cmdSetImageRandomUrl should set random url to image", function() {
   notEqual(url1, url2, "URL is random");
 });
 
+test("MBox.do should call given function and return its value", function() {
+  var a = "abc";
+  var f = function(s) { return s.toUpperCase(); };
+  equal(box(a).do(f), "ABC", "call given function and return its value");
+});
+
+test("box should return value included in MBox", function() {
+  var a = "ABC";
+  var b = box(a);
+  equal(b.value, a, "value is included in MBox");
+});
+
 test("insertFirst should insert element when no child node", function() {
   withWorkArea(function(wrkArea) {
     var e = document.createElement("div");
