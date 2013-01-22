@@ -47,12 +47,10 @@ function cmdToggleStartButton() {
 }
 
 function cmdShowNewImage() {
-  var img = createImage();
+  var img = box(createImage()).do(setImageCallback).value;
   var imageArea = document.getElementById(IMAGE_AREA_ID);
   imageArea.insertFirst = insertFirst;
   imageArea.insertFirst(img.parentNode);
-  img.onerror = imageOnError;
-  img.onload = imageOnLoad;
   cmdSetImageRandomUrl(img);
 }
 
