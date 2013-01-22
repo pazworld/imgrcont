@@ -60,6 +60,7 @@ function cmdSetImageRandomUrl(img) {
   var url = randPictureUrl();
   img.setAttribute("src", url);
   img.parentNode.setAttribute("href", url);
+  return box(img);
 }
 
 /*
