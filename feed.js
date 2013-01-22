@@ -79,6 +79,19 @@ function box(a) {
 }
 
 /*
+ * Logics
+ *   are the place for business/domain logics.
+ */
+
+// for image
+
+function setImageCallback(img) {
+  img.onerror = imageOnError;
+  img.onload = imageOnLoad;
+  return box(img);
+}
+
+/*
  * Methods
  *   are attached to objects so that giving some ability.
  */

@@ -71,6 +71,11 @@ test("box should return value included in MBox", function() {
   equal(b.value, a, "value is included in MBox");
 });
 
+test("setImageCallback shoud set callbacks and return MBox(img)", function() {
+  var img = box(createImage()).do(setImageCallback);
+  equal(img.value.onload, imageOnLoad, "set callbacks and return MBox(img)");
+});
+
 test("insertFirst should insert element when no child node", function() {
   withWorkArea(function(wrkArea) {
     var e = document.createElement("div");
