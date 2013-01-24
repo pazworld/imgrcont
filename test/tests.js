@@ -183,10 +183,27 @@ function doLater(func) {
   }, 300);
 }
 
-function withWorkArea(func) {
-  makeWorkArea();
-  func(workArea());
-  removeWorkArea();
+function withWorkArea(f) {
+  box(document).do(setupWork).do(callWithWork(f)).do(removeWork);
+}
+
+function setupWork(d) {
+  var w = document.createElement("div");
+  w.id = WORK_AREA_ID;
+  baseDiv().appendChild(w);
+  return box(d);
+}
+
+function removeWork(d) {
+  baseDiv().removeChild(workArea(d));
+  return box(d);
+}
+
+function callWithWork(f) {
+  return function(d) {
+    f(workArea(d));
+    return box(d);
+  }
 }
 
 function makeWorkArea() {
