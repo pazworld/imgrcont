@@ -101,8 +101,7 @@ test("setImageCallback shoud set callbacks and return MBox(img)", function() {
 test("insertFirst should insert element when no child node", function() {
   withWorkArea(function(wrkArea) {
     var e = document.createElement("div");
-    wrkArea.insertFirst = insertFirst;
-    wrkArea.insertFirst(e);
+    insertFirst(wrkArea, e);
     equal(wrkArea.childNodes.length, 1, "appended");
   });
 });
@@ -112,9 +111,8 @@ test("insertFirst should insert element first when child node exists",
   withWorkArea(function(wrkArea) {
     var e1 = document.createElement("div");
     var e2 = document.createElement("div");
-    wrkArea.insertFirst = insertFirst;
-    wrkArea.insertFirst(e1);
-    wrkArea.insertFirst(e2);
+    insertFirst(wrkArea, e1);
+    insertFirst(wrkArea, e2);
     equal(wrkArea.firstChild, e2, "inserted first");
   });
 });
@@ -241,8 +239,4 @@ function createImageArea(parent) {
 function Counter() {
   this.count = 0;
   this.countUp = function() { this.count++; };
-}
-
-function getImageArea() {
-  return document.getElementById(IMAGE_AREA_ID);
 }

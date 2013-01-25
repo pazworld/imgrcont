@@ -25,9 +25,7 @@ function imageOnLoad() {
     cmdSetImageRandomUrl(this);
     return;
   }
-  var startButton = document.getElementById(START_BUTTON_ID);
-  if (!startButton) return;
-  if (startButton.value == BUTTON_IS_RUNNING) cmdShowNewImage();
+  if (isRunning()) cmdShowNewImage();
 }
 
 /*
@@ -37,21 +35,19 @@ function imageOnLoad() {
  */
 
 function cmdToggleStartButton() {
-  var startButton = document.getElementById(START_BUTTON_ID);
-  if (startButton.value == BUTTON_IS_RUNNING) {
-    startButton.value = BUTTON_NOT_RUNNING;
+  if (isRunning()) {
+    setStartButtonNotRunning();
     return;
   }
-  startButton.value = BUTTON_IS_RUNNING;
+  setStartButtonRunning();
   cmdShowNewImage();
 }
 
 function cmdShowNewImage() {
   var img = box(createImage()).do(setImageCallback).value;
-  var imageArea = document.getElementById(IMAGE_AREA_ID);
-  imageArea.insertFirst = insertFirst;
-  imageArea.insertFirst(img.parentNode);
   cmdSetImageRandomUrl(img);
+  var imageArea = getImageArea();
+  insertFirst(imageArea, img.parentNode);
 }
 
 function cmdSetImageRandomUrl(img) {
@@ -78,10 +74,8 @@ function box(a) {
 
 /*
  * Logics
- *   are the place for business/domain logics.
+ *   are the place for logics.
  */
-
-// for image
 
 function setImageCallback(img) {
   img.onerror = imageOnError;
@@ -89,24 +83,26 @@ function setImageCallback(img) {
   return box(img);
 }
 
-/*
- * Methods
- *   are attached to objects so that giving some ability.
- */
-
-function insertFirst(child) {
-  if (this.childNodes.length == 0) {
-    this.appendChild(child);
+function insertFirst(parent, newChild) {
+  if (parent.childNodes.length == 0) {
+    parent.appendChild(newChild);
     return;
   }
-  this.insertBefore(child, this.firstChild);
+  parent.insertBefore(newChild, parent.firstChild);
 }
 
 /*
  * Queries
  *   inspect system state or create some value, and return them.
- *   are referential transparent.
  */
+
+// for imageArea
+
+function getImageArea() {
+  return document.getElementById(IMAGE_AREA_ID);
+}
+
+// for image
 
 function createImage() {
   var img = document.createElement("img");
@@ -123,6 +119,28 @@ function isImageExist(img) {
   if (img.width == 161 && img.height == 81) return false;
   return true;
 }
+
+// for startButton
+
+function getStartButton() {
+  return document.getElementById(START_BUTTON_ID);
+}
+
+function isRunning() {
+  var button = getStartButton();
+  if (!button) return false;
+  return (button.value == BUTTON_IS_RUNNING);
+}
+
+function setStartButtonRunning() {
+  getStartButton().value = BUTTON_IS_RUNNING;
+}
+
+function setStartButtonNotRunning() {
+  getStartButton().value = BUTTON_NOT_RUNNING;
+}
+
+// for URL
 
 function randPictureUrl() {
   return "http://i.imgur.com/" + makeKey() + ".jpg";
