@@ -1,4 +1,5 @@
 var WORK_AREA_ID = "workarea";
+var QUNIT_FRAME_ID = "qunit";
 
 test("image shold be reload when error", function() {
   imageEventTest("error.png",
@@ -11,8 +12,7 @@ test("image should be reload when not_exist", function() {
 });
 
 test("new image should be inserted when load successfully", function() {
-  makeWorkArea();
-  var wrkArea = workArea();
+  var wrkArea = createWorkArea(getQUnitFrame(document));
   var imageArea = createImageArea(wrkArea);
   var img = createImage();
   imageArea.appendChild(img);
@@ -184,44 +184,29 @@ function doLater(func) {
 }
 
 function withWorkArea(f) {
-  box(document).do(setupWork).do(callWithWork(f)).do(removeWork);
+  var q = getQUnitFrame(document);
+  var w = createWorkArea(q);
+  f(w);
+  q.removeChild(w);
 }
 
-function setupWork(d) {
+function getQUnitFrame(d) {
+  return d.getElementById(QUNIT_FRAME_ID);
+}
+
+function createWorkArea(parent) {
   var w = document.createElement("div");
   w.id = WORK_AREA_ID;
-  qunitFrame().appendChild(w);
-  return box(d);
-}
-
-function removeWork(d) {
-  qunitFrame().removeChild(workArea(d));
-  return box(d);
-}
-
-function callWithWork(f) {
-  return function(d) {
-    f(workArea(d));
-    return box(d);
-  }
-}
-
-function makeWorkArea() {
-  var w = document.createElement("div");
-  w.id = WORK_AREA_ID;
-  qunitFrame().appendChild(w);
+  parent.appendChild(w);
+  return w;
 }
 
 function removeWorkArea() {
-  qunitFrame().removeChild(workArea());
+  getQUnitFrame(document).removeChild(workArea());
 }
 
 function workArea() {
   return document.getElementById(WORK_AREA_ID);
-}
-
-function qunitFrame() {
-  return document.getElementById("qunit");
 }
 
 function createImageArea(parent) {
