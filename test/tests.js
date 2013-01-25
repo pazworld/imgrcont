@@ -17,12 +17,12 @@ test("new image should be inserted when load successfully", function() {
   var img = createImage();
   imageArea.appendChild(img);
   var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
-  var cmdShowNewImageCounter = 0;
-  Mock.make("cmdShowNewImage", function() { cmdShowNewImageCounter++; });
+  var counter = new Counter();
+  Mock.make("cmdShowNewImage", function() { counter.countUp(); });
   img.onload = imageOnLoad;
   img.setAttribute("src", "ok.png");
   doLater(function() {
-    notEqual(cmdShowNewImageCounter, 0, "new image is loaded");
+    notEqual(counter.count, 0, "new image is loaded");
     Mock.revert_all();
     removeWorkArea();
   });
@@ -214,4 +214,9 @@ function createImageArea(parent) {
   div.id = IMAGE_AREA_ID;
   parent.appendChild(div);
   return div;
+}
+
+function Counter() {
+  this.count = 0;
+  this.countUp = function() { this.count++; };
 }
