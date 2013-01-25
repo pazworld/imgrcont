@@ -190,12 +190,12 @@ function withWorkArea(f) {
 function setupWork(d) {
   var w = document.createElement("div");
   w.id = WORK_AREA_ID;
-  baseDiv().appendChild(w);
+  qunitFrame().appendChild(w);
   return box(d);
 }
 
 function removeWork(d) {
-  baseDiv().removeChild(workArea(d));
+  qunitFrame().removeChild(workArea(d));
   return box(d);
 }
 
@@ -209,18 +209,18 @@ function callWithWork(f) {
 function makeWorkArea() {
   var w = document.createElement("div");
   w.id = WORK_AREA_ID;
-  baseDiv().appendChild(w);
+  qunitFrame().appendChild(w);
 }
 
 function removeWorkArea() {
-  baseDiv().removeChild(workArea());
+  qunitFrame().removeChild(workArea());
 }
 
 function workArea() {
   return document.getElementById(WORK_AREA_ID);
 }
 
-function baseDiv() {
+function qunitFrame() {
   return document.getElementById("qunit");
 }
 
