@@ -28,6 +28,16 @@ test("new image should be inserted when load successfully", function() {
   });
 });
 
+test("isRunning should return true "
+    + "when startButton value is BUTTON_IS_RUNNING", function() {
+  var button = getStartButton();
+  button.value = BUTTON_IS_RUNNING;
+  equal(isRunning(), true, "true when BUTTON_IS_RUNNING");
+  
+  button.value = BUTTON_NOT_RUNNING;
+  equal(isRunning(), false, "false when BUTTON_IS_RUNNING");
+});
+
 module("with old style workArea");
 
 test("image shold be reload when error", function() {
