@@ -57,11 +57,6 @@ function cmdSetImageRandomUrl(img) {
   img.parentNode.setAttribute("href", url);
 }
 
-/*
- * Logics
- *   are the place for logics.
- */
-
 function setImageCallback(img) {
   img.onerror = imageOnError;
   img.onload = imageOnLoad;
