@@ -1,6 +1,35 @@
 var WORK_AREA_ID = "workarea";
 var QUNIT_FRAME_ID = "qunit";
 
+module("with new style workArea", {
+  setup: function() {
+    var wrkArea = createWorkArea(getQUnitFrame(document));
+    var imageArea = createImageArea(wrkArea);
+    var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
+  },
+  teardown: function() {
+    removeWorkArea();
+  }
+});
+
+test("new image should be inserted when load successfully", function() {
+  var counter = new Counter();
+  Mock.make("cmdShowNewImage", function() { counter.countUp(); });
+  
+  var imageArea = getImageArea(document);
+  var img = createImage();
+  imageArea.appendChild(img);
+  img.onload = imageOnLoad;
+  img.setAttribute("src", "ok.png");
+  
+  doLater(function() {
+    notEqual(counter.count, 0, "new image is loaded");
+    Mock.revert_all();
+  });
+});
+
+module("with old style workArea");
+
 test("image shold be reload when error", function() {
   imageEventTest("error.png",
     function(img) { img.onerror = imageOnError; });
@@ -9,23 +38,6 @@ test("image shold be reload when error", function() {
 test("image should be reload when not_exist", function() {
   imageEventTest("not_exist.png",
     function(img) { img.onload = imageOnLoad; });
-});
-
-test("new image should be inserted when load successfully", function() {
-  var wrkArea = createWorkArea(getQUnitFrame(document));
-  var imageArea = createImageArea(wrkArea);
-  var img = createImage();
-  imageArea.appendChild(img);
-  var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
-  var counter = new Counter();
-  Mock.make("cmdShowNewImage", function() { counter.countUp(); });
-  img.onload = imageOnLoad;
-  img.setAttribute("src", "ok.png");
-  doLater(function() {
-    notEqual(counter.count, 0, "new image is loaded");
-    Mock.revert_all();
-    removeWorkArea();
-  });
 });
 
 test("cmdToggleStartButton should toggle button value "
@@ -219,4 +231,8 @@ function createImageArea(parent) {
 function Counter() {
   this.count = 0;
   this.countUp = function() { this.count++; };
+}
+
+function getImageArea(d) {
+  return d.getElementById(IMAGE_AREA_ID);
 }
