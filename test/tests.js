@@ -3,7 +3,7 @@ var QUNIT_FRAME_ID = "qunit";
 
 module("with new style workArea", {
   setup: function() {
-    var wrkArea = createWorkArea(getQUnitFrame(document));
+    var wrkArea = createWorkArea(getQUnitFrame());
     var imageArea = createImageArea(wrkArea);
     var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
   },
@@ -196,14 +196,14 @@ function doLater(func) {
 }
 
 function withWorkArea(f) {
-  var q = getQUnitFrame(document);
+  var q = getQUnitFrame();
   var w = createWorkArea(q);
   f(w);
   q.removeChild(w);
 }
 
-function getQUnitFrame(d) {
-  return d.getElementById(QUNIT_FRAME_ID);
+function getQUnitFrame() {
+  return document.getElementById(QUNIT_FRAME_ID);
 }
 
 function createWorkArea(parent) {
@@ -214,7 +214,7 @@ function createWorkArea(parent) {
 }
 
 function removeWorkArea() {
-  getQUnitFrame(document).removeChild(workArea());
+  getQUnitFrame().removeChild(workArea());
 }
 
 function workArea() {
@@ -233,6 +233,6 @@ function Counter() {
   this.countUp = function() { this.count++; };
 }
 
-function getImageArea(d) {
-  return d.getElementById(IMAGE_AREA_ID);
+function getImageArea() {
+  return document.getElementById(IMAGE_AREA_ID);
 }
