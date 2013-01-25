@@ -30,7 +30,7 @@ function imageOnLoad() {
 
 /*
  * Commands
- *   are the only part which modify system state.
+ *   modify system state.
  *   are imperative, don't return any value.
  */
 
@@ -44,7 +44,8 @@ function cmdToggleStartButton() {
 }
 
 function cmdShowNewImage() {
-  var img = box(createImage()).do(setImageCallback).value;
+  var img = createImage();
+  setImageCallback(img);
   cmdSetImageRandomUrl(img);
   var imageArea = getImageArea();
   insertFirst(imageArea, img.parentNode);
@@ -80,7 +81,6 @@ function box(a) {
 function setImageCallback(img) {
   img.onerror = imageOnError;
   img.onload = imageOnLoad;
-  return box(img);
 }
 
 function insertFirst(parent, newChild) {
