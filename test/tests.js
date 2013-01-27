@@ -1,7 +1,9 @@
 var WORK_AREA_ID = "workarea";
 var QUNIT_FRAME_ID = "qunit";
 
-module("with new style workArea", {
+// test with workArea, imageArea and startButton.
+
+module("", {
   setup: function() {
     var frame = qunitFrame();
     var wrkArea = createWorkArea(frame);
@@ -43,16 +45,6 @@ test("image should be reload when not_exist", function() {
   });
 });
 
-test("isRunning should return true "
-    + "when startButton value is BUTTON_IS_RUNNING", function() {
-  var button = getStartButton();
-  setStartButtonRunning();
-  equal(isRunning(), true, "true when BUTTON_IS_RUNNING");
-  
-  setStartButtonNotRunning();
-  equal(isRunning(), false, "false when BUTTON_IS_RUNNING");
-});
-
 test("cmdToggleStartButton should toggle button value "
     + "and call cmdShowNewImage when start.", function() {
   var counter = new Counter();
@@ -70,21 +62,31 @@ test("cmdToggleStartButton should toggle button value "
   Mock.revert_all();
 });
 
-module("with old style workArea");
-
 test("cmdShowNewImage should insert image first when other image exist",
     function() {
-  withWorkArea(function(wrkArea) {
-    var imageArea = createImageArea(wrkArea);
-    var firstUrlInserted = function() {
-      cmdShowNewImage();
-      return imageArea.firstChild.getAttribute("href");
-    }
-    var url1 = firstUrlInserted();
-    var url2 = firstUrlInserted();
-    notEqual(url1, url2, "inserted first");
-  });
+  var imageArea = getImageArea();
+  var firstUrlInserted = function() {
+    cmdShowNewImage();
+    return imageArea.firstChild.getAttribute("href");
+  }
+  var url1 = firstUrlInserted();
+  var url2 = firstUrlInserted();
+  notEqual(url1, url2, "inserted first");
 });
+
+test("isRunning should return true "
+    + "when startButton value is BUTTON_IS_RUNNING", function() {
+  var button = getStartButton();
+  setStartButtonRunning();
+  equal(isRunning(), true, "true when BUTTON_IS_RUNNING");
+  
+  setStartButtonNotRunning();
+  equal(isRunning(), false, "false when BUTTON_IS_RUNNING");
+});
+
+// tests without workArea, imageArea and startButton.
+
+module("");
 
 test("cmdSetImageRandomUrl should set random url to image", function() {
   var img = createImage();
