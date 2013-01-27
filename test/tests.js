@@ -84,16 +84,14 @@ test("insertFirst should insert element when no child node", function() {
 test("insertFirst should insert element first when child node exists",
     function() {
   var imageArea = getImageArea();
-  
   var createAndInsertImage = function() {
     img = createImage();
     cmdSetImageRandomUrl(img);
     insertFirst(imageArea, img);
     return img;
   };
-  
-  img1 = createAndInsertImage();
-  img2 = createAndInsertImage();
+  var img1 = createAndInsertImage();
+  var img2 = createAndInsertImage();
   equal(imageArea.firstChild, img2, "inserted first");
 });
 
@@ -175,14 +173,6 @@ function isImageExistTest(msg, filename, expected) {
   });
 }
 
-function createStartButton(parent, value) {
-  var button = document.createElement("button");
-  button.id = START_BUTTON_ID;
-  button.value = value;
-  parent.appendChild(button);
-  return button;
-}
-
 function doLater(func) {
   stop();
   setTimeout(function() {
@@ -191,15 +181,12 @@ function doLater(func) {
   }, 300);
 }
 
-function withWorkArea(f) {
-  var qunitFrame = getQUnitFrame();
-  var workArea = createWorkArea(qunitFrame);
-  f(workArea);
-  removeWorkArea();
-}
-
 function getQUnitFrame() {
   return document.getElementById(QUNIT_FRAME_ID);
+}
+
+function getWorkArea() {
+  return document.getElementById(WORK_AREA_ID);
 }
 
 function createWorkArea(parent) {
@@ -215,15 +202,19 @@ function removeWorkArea() {
   qunitFrame.removeChild(workArea);
 }
 
-function getWorkArea() {
-  return document.getElementById(WORK_AREA_ID);
-}
-
 function createImageArea(parent) {
   var div = document.createElement("div");
   div.id = IMAGE_AREA_ID;
   parent.appendChild(div);
   return div;
+}
+
+function createStartButton(parent, value) {
+  var button = document.createElement("button");
+  button.id = START_BUTTON_ID;
+  button.value = value;
+  parent.appendChild(button);
+  return button;
 }
 
 function Counter() {
