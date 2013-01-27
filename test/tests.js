@@ -30,14 +30,16 @@ test("new image should be inserted when load successfully", function() {
 });
 
 test("image shold be reload when error", function() {
-  var imageArea = getImageArea();
-  var img = createImage();
-  imageArea.appendChild(img);
-  img.onerror = imageOnError;
-  img.setAttribute("src", "error.png");
-  
-  doLater(function() {
-    notEqual(img.getAttribute("src"), "error.png", "reload");
+  reloadTest({
+    setEvent: function(img) { img.onerror = imageOnError; },
+    whenImageIs: "error.png"
+  });
+});
+
+test("image should be reload when not_exist", function() {
+  reloadTest({
+    setEvent: function(img) { img.onload = imageOnLoad; },
+    whenImageIs: "not_exist.png"
   });
 });
 
@@ -52,16 +54,6 @@ test("isRunning should return true "
 });
 
 module("with old style workArea");
-
-test("image shold be reload when error", function() {
-  imageEventTest("error.png",
-    function(img) { img.onerror = imageOnError; });
-});
-
-test("image should be reload when not_exist", function() {
-  imageEventTest("not_exist.png",
-    function(img) { img.onload = imageOnLoad; });
-});
 
 test("cmdToggleStartButton should toggle button value "
     + "and call cmdShowNewImage.", function() {
@@ -146,19 +138,15 @@ test("randChar should return random string which length is 1", function() {
   equal(randChar().length, 1, "string length is 1");
 });
 
-function imageEventTest(filename, funcForImage) {
-  withWorkArea(function(wrkArea) {
-    var imageArea = createImageArea(wrkArea);
-    var img = createImage();
-    imageArea.appendChild(img);
-    var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
-    Mock.make("cmdShowNewImage", function() {});
-    funcForImage(img);
-    img.setAttribute("src", filename);
-    doLater(function() {
-      notEqual(img.getAttribute("src"), filename, "reloaded");
-      Mock.revert_all();
-    });
+function reloadTest(setting) {
+  var imageArea = getImageArea();
+  var img = createImage();
+  imageArea.appendChild(img);
+  setting.setEvent(img);
+  img.setAttribute("src", setting.whenImageIs);
+  
+  doLater(function() {
+    notEqual(img.getAttribute("src"), setting.whenImageIs, "reload");
   });
 }
 
