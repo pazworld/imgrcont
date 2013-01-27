@@ -34,6 +34,8 @@ function imageOnLoad() {
  *   are imperative, don't return any value.
  */
 
+// Top level commands called from evets.
+
 function cmdToggleStartButton() {
   if (isRunning()) {
     setStartButtonNotRunning();
@@ -57,6 +59,8 @@ function cmdSetImageRandomUrl(img) {
   img.parentNode.setAttribute("href", url);
 }
 
+// Lower level commands called from top level commands.
+
 function setImageCallback(img) {
   img.onerror = imageOnError;
   img.onload = imageOnLoad;
@@ -68,6 +72,14 @@ function insertFirst(parent, newChild) {
     return;
   }
   parent.insertBefore(newChild, parent.firstChild);
+}
+
+function setStartButtonRunning() {
+  getStartButton().value = BUTTON_IS_RUNNING;
+}
+
+function setStartButtonNotRunning() {
+  getStartButton().value = BUTTON_NOT_RUNNING;
 }
 
 /*
@@ -109,14 +121,6 @@ function isRunning() {
   var button = getStartButton();
   if (!button) return false;
   return (button.value == BUTTON_IS_RUNNING);
-}
-
-function setStartButtonRunning() {
-  getStartButton().value = BUTTON_IS_RUNNING;
-}
-
-function setStartButtonNotRunning() {
-  getStartButton().value = BUTTON_NOT_RUNNING;
 }
 
 // for URL
