@@ -3,7 +3,8 @@ var QUNIT_FRAME_ID = "qunit";
 
 module("with new style workArea", {
   setup: function() {
-    var wrkArea = createWorkArea(qunitFrame());
+    var frame = qunitFrame();
+    var wrkArea = createWorkArea(frame);
     var imageArea = createImageArea(wrkArea);
     var button = createStartButton(wrkArea, BUTTON_IS_RUNNING);
   },
@@ -16,7 +17,7 @@ test("new image should be inserted when load successfully", function() {
   var counter = new Counter();
   Mock.make("cmdShowNewImage", function() { counter.countUp(); });
   
-  var imageArea = getImageArea(document);
+  var imageArea = getImageArea();
   var img = createImage();
   imageArea.appendChild(img);
   img.onload = imageOnLoad;
@@ -25,6 +26,18 @@ test("new image should be inserted when load successfully", function() {
   doLater(function() {
     notEqual(counter.count, 0, "new image is loaded");
     Mock.revert_all();
+  });
+});
+
+test("image shold be reload when error", function() {
+  var imageArea = getImageArea();
+  var img = createImage();
+  imageArea.appendChild(img);
+  img.onerror = imageOnError;
+  img.setAttribute("src", "error.png");
+  
+  doLater(function() {
+    notEqual(img.getAttribute("src"), "error.png", "reload");
   });
 });
 
