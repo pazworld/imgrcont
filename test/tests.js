@@ -53,13 +53,24 @@ test("isRunning should return true "
   equal(isRunning(), false, "false when BUTTON_IS_RUNNING");
 });
 
-module("with old style workArea");
-
 test("cmdToggleStartButton should toggle button value "
-    + "and call cmdShowNewImage.", function() {
-  buttonToggleTest(BUTTON_IS_RUNNING, BUTTON_NOT_RUNNING, false);
-  buttonToggleTest(BUTTON_NOT_RUNNING, BUTTON_IS_RUNNING, true);
+    + "and call cmdShowNewImage when start.", function() {
+  var counter = new Counter();
+  Mock.make("cmdShowNewImage", function() { counter.countUp(); });
+  
+  setStartButtonRunning();
+  cmdToggleStartButton();
+  equal(isRunning(), false, "toggle to stop when running");
+  equal(counter.count, 0, "without call cmdShowNewImage");
+  
+  cmdToggleStartButton();
+  equal(isRunning(), true, "toggle to start when not running");
+  notEqual(counter.count, 0, "with call cmdShowNewImage");
+  
+  Mock.revert_all();
 });
+
+module("with old style workArea");
 
 test("cmdShowNewImage should insert image first when other image exist",
     function() {
@@ -147,25 +158,6 @@ function reloadTest(setting) {
   
   doLater(function() {
     notEqual(img.getAttribute("src"), setting.whenImageIs, "reload");
-  });
-}
-
-function buttonToggleTest(before, after, called) {
-  withWorkArea(function(wrkArea) {
-    var flgCallCmdShowNewImage = false;
-    Mock.make("cmdShowNewImage", function() {
-      flgCallCmdShowNewImage = true;
-    });
-    
-    var button = createStartButton(wrkArea, before);
-    cmdToggleStartButton();
-    equal(button.value, after, "when button value " + before + " -> " + after);
-    
-    var msg = "not called";
-    if (called) msg = "called";
-    equal(flgCallCmdShowNewImage, called, "cmdShowNewImage is " + msg);
-    
-    Mock.revert_all();
   });
 }
 
