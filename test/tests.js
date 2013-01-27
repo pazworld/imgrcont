@@ -74,6 +74,29 @@ test("cmdShowNewImage should insert image first when other image exist",
   notEqual(url1, url2, "inserted first");
 });
 
+test("insertFirst should insert element when no child node", function() {
+  var imageArea = getImageArea();
+  var img = createImage();
+  insertFirst(imageArea, img);
+  equal(imageArea.childNodes.length, 1, "appended");
+});
+
+test("insertFirst should insert element first when child node exists",
+    function() {
+  var imageArea = getImageArea();
+  
+  var createAndInsertImage = function() {
+    img = createImage();
+    cmdSetImageRandomUrl(img);
+    insertFirst(imageArea, img);
+    return img;
+  };
+  
+  img1 = createAndInsertImage();
+  img2 = createAndInsertImage();
+  equal(imageArea.firstChild, img2, "inserted first");
+});
+
 test("isRunning should return true "
     + "when startButton value is BUTTON_IS_RUNNING", function() {
   var button = getStartButton();
@@ -103,25 +126,6 @@ test("setImageCallback shoud set callbacks", function() {
   var img = createImage();
   setImageCallback(img);
   equal(img.onload, imageOnLoad, "set callbacks");
-});
-
-test("insertFirst should insert element when no child node", function() {
-  withWorkArea(function(wrkArea) {
-    var e = document.createElement("div");
-    insertFirst(wrkArea, e);
-    equal(wrkArea.childNodes.length, 1, "appended");
-  });
-});
-
-test("insertFirst should insert element first when child node exists",
-    function() {
-  withWorkArea(function(wrkArea) {
-    var e1 = document.createElement("div");
-    var e2 = document.createElement("div");
-    insertFirst(wrkArea, e1);
-    insertFirst(wrkArea, e2);
-    equal(wrkArea.firstChild, e2, "inserted first");
-  });
 });
 
 test("createImage should return image element wrapped by anchor.", function() {
