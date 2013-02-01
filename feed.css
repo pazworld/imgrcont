@@ -1,3 +1,11 @@
+#startButton, #ajaxLoader {
+  vertical-align: middle;
+}
+
+#ajaxLoader {
+  visibility: hidden;
+}
+
 img.show {
   max-width: 200px;
   max-height: 200px;

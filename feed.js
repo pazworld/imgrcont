@@ -4,6 +4,7 @@
 
 var START_BUTTON_ID = "startButton";
 var IMAGE_AREA_ID = "picarea";
+var AJAX_LOADER_ID = "ajaxLoader";
 var BUTTON_NOT_RUNNING = "Start";
 var BUTTON_IS_RUNNING = "Stop";
 
@@ -39,9 +40,11 @@ function imageOnLoad() {
 function cmdToggleStartButton() {
   if (isRunning()) {
     setStartButtonNotRunning();
+    setAjaxLoaderStop();
     return;
   }
   setStartButtonRunning();
+  setAjaxLoaderStart();
   cmdShowNewImage();
 }
 
@@ -80,6 +83,16 @@ function setStartButtonRunning() {
 
 function setStartButtonNotRunning() {
   getStartButton().value = BUTTON_NOT_RUNNING;
+}
+
+function setAjaxLoaderStart() {
+  var loader = getAjaxLoader();
+  loader.style.visibility = "visible";
+}
+
+function setAjaxLoaderStop() {
+  var loader = getAjaxLoader();
+  loader.style.visibility = "hidden";
 }
 
 /*
@@ -121,6 +134,12 @@ function isRunning() {
   var button = getStartButton();
   if (!button) return false;
   return (button.value == BUTTON_IS_RUNNING);
+}
+
+// for ajaxLoader
+
+function getAjaxLoader() {
+  return document.getElementById(AJAX_LOADER_ID);
 }
 
 // for URL

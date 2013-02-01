@@ -1,7 +1,7 @@
 var WORK_AREA_ID = "workarea";
 var QUNIT_FRAME_ID = "qunit";
 
-// tests with workArea, imageArea and startButton.
+// tests with workArea, imageArea, startButton and ajaxLoader.
 
 module("", {
   setup: function() {
@@ -9,6 +9,7 @@ module("", {
     var wrkArea = createWorkArea(qunitFrame);
     var imageArea = createImageArea(wrkArea);
     var startButton = createStartButton(wrkArea, BUTTON_IS_RUNNING);
+    var loader = createAjaxLoader(wrkArea);
   },
   teardown: function() {
     removeWorkArea();
@@ -111,6 +112,16 @@ test("isImageExist should return true if image isn't not_exist.png",
   isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
+test("setAjaxLoaderStart should make ajaxLoader visible", function() {
+  setAjaxLoaderStart();
+  equal(getAjaxLoader().style.visibility, "visible", "visible");
+});
+
+test("setAjaxLoaderStop should make ajaxLoader invisible", function() {
+  setAjaxLoaderStop();
+  equal(getAjaxLoader().style.visibility, "hidden", "invisible");
+});
+
 // tests without workArea, imageArea and startButton.
 
 module("");
@@ -183,9 +194,13 @@ function doLater(func) {
   }, 300);
 }
 
+// for QUnitFrame
+
 function getQUnitFrame() {
   return document.getElementById(QUNIT_FRAME_ID);
 }
+
+// for workArea
 
 function getWorkArea() {
   return document.getElementById(WORK_AREA_ID);
@@ -203,17 +218,29 @@ function removeWorkArea() {
   qunitFrame.removeChild(workArea);
 }
 
+// for imageArea
+
 function createImageArea(parent) {
   var div = createElementWithId({
     type: "div", parent: parent, id: IMAGE_AREA_ID });
   return div;
 }
 
+// for startButton
+
 function createStartButton(parent, value) {
   var button = createElementWithId({
     type: "button", parent: parent, id: START_BUTTON_ID });
   button.value = value;
   return button;
+}
+
+// for ajaxLoader
+
+function createAjaxLoader(parent) {
+  var loader = createElementWithId({
+    type: "img", parent: parent, id: AJAX_LOADER_ID });
+  return loader;
 }
 
 function createElementWithId(args) {
