@@ -105,6 +105,12 @@ test("isRunning should return true "
   equal(isRunning(), false, "false when BUTTON_IS_RUNNING");
 });
 
+test("isImageExist should return true if image isn't not_exist.png",
+    function() {
+  isImageExistTest("check image exist", "ok.png", true);
+  isImageExistTest("check image not exist", "not_exist.png", false);
+});
+
 // tests without workArea, imageArea and startButton.
 
 module("");
@@ -130,12 +136,6 @@ test("createImage should return image element wrapped by anchor.", function() {
   var img = createImage();
   equal(img.tagName, "IMG", "have image element");
   equal(img.parentNode.tagName, "A", "wrapped by anchor element");
-});
-
-test("isImageExist should return true if image isn't not_exist.png",
-    function() {
-  isImageExistTest("check image exist", "ok.png", true);
-  isImageExistTest("check image not exist", "not_exist.png", false);
 });
 
 test("randPictureUrl should return URL of random picture of imgur", function() {
@@ -166,7 +166,9 @@ function reloadTest(setting) {
 }
 
 function isImageExistTest(msg, filename, expected) {
+  var imageArea = getImageArea();
   var img = createImage();
+  imageArea.appendChild(img);
   img.setAttribute("src", filename);
   doLater(function() {
     equal(isImageExist(img), expected, msg);
