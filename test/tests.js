@@ -1,7 +1,7 @@
 var WORK_AREA_ID = "workarea";
 var QUNIT_FRAME_ID = "qunit";
 
-// test with workArea, imageArea and startButton.
+// tests with workArea, imageArea and startButton.
 
 module("", {
   setup: function() {
@@ -190,9 +190,8 @@ function getWorkArea() {
 }
 
 function createWorkArea(parent) {
-  var w = document.createElement("div");
-  w.id = WORK_AREA_ID;
-  parent.appendChild(w);
+  var w = createElementWithId({
+    type: "div", parent: parent, id: WORK_AREA_ID });
   return w;
 }
 
@@ -203,18 +202,23 @@ function removeWorkArea() {
 }
 
 function createImageArea(parent) {
-  var div = document.createElement("div");
-  div.id = IMAGE_AREA_ID;
-  parent.appendChild(div);
+  var div = createElementWithId({
+    type: "div", parent: parent, id: IMAGE_AREA_ID });
   return div;
 }
 
 function createStartButton(parent, value) {
-  var button = document.createElement("button");
-  button.id = START_BUTTON_ID;
+  var button = createElementWithId({
+    type: "button", parent: parent, id: START_BUTTON_ID });
   button.value = value;
-  parent.appendChild(button);
   return button;
+}
+
+function createElementWithId(args) {
+  var elem = document.createElement(args.type);
+  elem.id = args.id;
+  args.parent.appendChild(elem);
+  return elem;
 }
 
 function Counter() {
