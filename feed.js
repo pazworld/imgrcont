@@ -97,7 +97,7 @@ function getImageArea() {
 
 function createImage() {
   var img = document.createElement("img");
-  img.setAttribute("class", "show");
+  img.className = "show";
   
   var anchor = document.createElement("a");
   anchor.setAttribute("target", "_blank");
