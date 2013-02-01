@@ -130,7 +130,9 @@ function randPictureUrl() {
 }
 
 function makeKey() {
-  return [1, 2, 3, 4, 5].map(randChar).join("");
+  var key = "";
+  for (i = 0; i < 5; i++) key += randChar();
+  return key;
 }
 
 function randChar() {
