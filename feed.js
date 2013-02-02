@@ -18,7 +18,7 @@ function startButtonClicked() {
 }
 
 function resetButtonClicked() {
-  cmdClearAllImages();
+  cmdClearDoneImages();
 }
 
 function imageOnError() {
@@ -67,9 +67,14 @@ function cmdSetImageRandomUrl(img) {
   img.parentNode.setAttribute("href", url);
 }
 
-function cmdClearAllImages() {
+function cmdClearDoneImages() {
   var imageArea = getImageArea();
-  imageArea.innerHTML = "";
+  while (imageArea.hasChildNodes()) {
+    var lastChild = imageArea.lastChild;
+    var img = lastChild.firstChild;
+    if (!img.getAttribute("done") == true) return;
+    imageArea.removeChild(lastChild);
+  }
 }
 
 // Lower level commands called from top level commands.
