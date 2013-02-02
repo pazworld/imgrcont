@@ -32,6 +32,21 @@ test("new image should be inserted when load successfully", function() {
   });
 });
 
+test("image should be done when load successfully", function() {
+  Mock.make("cmdShowNewImage", function() {});
+  
+  var imageArea = getImageArea();
+  var img = createImage();
+  imageArea.appendChild(img);
+  img.onload = imageOnLoad;
+  img.setAttribute("src", "ok.png");
+  
+  doLater(function() {
+    equal(img.getAttribute("done"), "true", "set done");
+    Mock.revert_all();
+  });
+});
+
 test("image shold be reload when error", function() {
   reloadTest({
     setEvent: function(img) { img.onerror = imageOnError; },
