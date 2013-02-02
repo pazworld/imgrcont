@@ -17,6 +17,10 @@ function startButtonClicked() {
   cmdToggleStartButton();
 }
 
+function resetButtonClicked() {
+  cmdClearAllImages();
+}
+
 function imageOnError() {
   cmdSetImageRandomUrl(this);
 }
@@ -60,6 +64,11 @@ function cmdSetImageRandomUrl(img) {
   var url = randPictureUrl();
   img.setAttribute("src", url);
   img.parentNode.setAttribute("href", url);
+}
+
+function cmdClearAllImages() {
+  var imageArea = getImageArea();
+  imageArea.innerHTML = "";
 }
 
 // Lower level commands called from top level commands.
