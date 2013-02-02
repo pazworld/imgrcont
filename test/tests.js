@@ -90,16 +90,29 @@ test("cmdShowNewImage should insert image first when other image exist",
   notEqual(url1, url2, "inserted first");
 });
 
-test("cmdClearDoneImages should remove all done images", function() {
+test("cmdClearImages should remove except one images when running",
+    function() {
+  setStartButtonRunning();
   var imageArea = getImageArea();
   var img;
   for (i = 0; i < 3; i++) {
     img = createImage();
     imageArea.appendChild(img.parentNode);
   }
-  img.setAttribute("done", "true");
-  cmdClearDoneImages();
-  equal(imageArea.childNodes.length, 2, "done removed");
+  cmdClearImages();
+  equal(imageArea.childNodes.length, 1, "done removed");
+});
+
+test("cmdClearImages should remove all images when not running", function() {
+  setStartButtonNotRunning();
+  var imageArea = getImageArea();
+  var img;
+  for (i = 0; i < 3; i++) {
+    img = createImage();
+    imageArea.appendChild(img.parentNode);
+  }
+  cmdClearImages();
+  equal(imageArea.childNodes.length, 0, "done removed");
 });
 
 test("insertFirst should insert element when no child node", function() {

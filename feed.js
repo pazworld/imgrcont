@@ -18,7 +18,7 @@ function startButtonClicked() {
 }
 
 function resetButtonClicked() {
-  cmdClearDoneImages();
+  cmdClearImages();
 }
 
 function imageOnError() {
@@ -67,13 +67,13 @@ function cmdSetImageRandomUrl(img) {
   img.parentNode.setAttribute("href", url);
 }
 
-function cmdClearDoneImages() {
+function cmdClearImages() {
+  var numImagesKept = 0;
+  if (isRunning()) numImagesKept = 1;
+  
   var imageArea = getImageArea();
-  while (imageArea.hasChildNodes()) {
-    var lastChild = imageArea.lastChild;
-    var img = lastChild.firstChild;
-    if (!img.getAttribute("done") == true) return;
-    imageArea.removeChild(lastChild);
+  while (imageArea.childNodes.length > numImagesKept) {
+    imageArea.removeChild(imageArea.lastChild);
   }
 }
 
