@@ -2,6 +2,11 @@
   vertical-align: middle;
 }
 
+#resetButton {
+  background-color: #ffffff;
+  padding: 0px;
+}
+
 #ajaxLoader {
   visibility: hidden;
 }
