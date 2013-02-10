@@ -2,7 +2,7 @@
   vertical-align: middle;
 }
 
-#resetButton {
+#startButton, #resetButton {
   background-color: #ffffff;
   padding: 0px;
 }
