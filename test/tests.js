@@ -9,6 +9,7 @@ module("", {
     var wrkArea = createWorkArea(qunitFrame);
     var imageArea = createImageArea(wrkArea);
     var startButton = createStartButton(wrkArea, BUTTON_IS_RUNNING);
+    var startButtonImage = createStartButtonImage(wrkArea);
     var loader = createAjaxLoader(wrkArea);
   },
   teardown: function() {
@@ -256,6 +257,12 @@ function createStartButton(parent, value) {
     type: "button", parent: parent, id: START_BUTTON_ID });
   button.value = value;
   return button;
+}
+
+function createStartButtonImage(parent) {
+  var img = createElementWithId({
+    type: "button", parent: parent, id: START_BUTTON_IMAGE_ID });
+  return img;
 }
 
 // for ajaxLoader

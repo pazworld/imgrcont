@@ -3,10 +3,13 @@
  */
 
 var START_BUTTON_ID = "startButton";
+var START_BUTTON_IMAGE_ID = "startButtonImage";
 var IMAGE_AREA_ID = "picarea";
 var AJAX_LOADER_ID = "ajaxLoader";
 var BUTTON_NOT_RUNNING = "Start";
 var BUTTON_IS_RUNNING = "Stop";
+var BUTTON_IMAGE_NOT_RUNNING = "start.png";
+var BUTTON_IMAGE_IS_RUNNING = "stop.png";
 
 /*
  * Events
@@ -93,10 +96,12 @@ function insertFirst(parent, newChild) {
 
 function setStartButtonRunning() {
   getStartButton().value = BUTTON_IS_RUNNING;
+  getStartButtonImage().setAttribute("src", BUTTON_IMAGE_IS_RUNNING);
 }
 
 function setStartButtonNotRunning() {
   getStartButton().value = BUTTON_NOT_RUNNING;
+  getStartButtonImage().setAttribute("src", BUTTON_IMAGE_NOT_RUNNING);
 }
 
 function setAjaxLoaderStart() {
@@ -142,6 +147,10 @@ function isImageExist(img) {
 
 function getStartButton() {
   return document.getElementById(START_BUTTON_ID);
+}
+
+function getStartButtonImage() {
+  return document.getElementById(START_BUTTON_IMAGE_ID);
 }
 
 function isRunning() {
