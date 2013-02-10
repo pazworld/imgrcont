@@ -30,7 +30,6 @@ function imageOnLoad() {
     cmdSetImageRandomUrl(this);
     return;
   }
-  this.setAttribute("done", true);
   if (isRunning()) cmdShowNewImage();
 }
 

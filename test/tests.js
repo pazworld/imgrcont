@@ -32,21 +32,6 @@ test("new image should be inserted when load successfully", function() {
   });
 });
 
-test("image should be done when load successfully", function() {
-  Mock.make("cmdShowNewImage", function() {});
-  
-  var imageArea = getImageArea();
-  var img = createImage();
-  imageArea.appendChild(img);
-  img.onload = imageOnLoad;
-  img.setAttribute("src", "ok.png");
-  
-  doLater(function() {
-    equal(img.getAttribute("done"), "true", "set done");
-    Mock.revert_all();
-  });
-});
-
 test("image shold be reload when error", function() {
   reloadTest({
     setEvent: function(img) { img.onerror = imageOnError; },
@@ -94,25 +79,23 @@ test("cmdClearImages should remove except one images when running",
     function() {
   setStartButtonRunning();
   var imageArea = getImageArea();
-  var img;
   for (i = 0; i < 3; i++) {
-    img = createImage();
+    var img = createImage();
     imageArea.appendChild(img.parentNode);
   }
   cmdClearImages();
-  equal(imageArea.childNodes.length, 1, "done removed");
+  equal(imageArea.childNodes.length, 1, "cleared except one image");
 });
 
 test("cmdClearImages should remove all images when not running", function() {
   setStartButtonNotRunning();
   var imageArea = getImageArea();
-  var img;
   for (i = 0; i < 3; i++) {
-    img = createImage();
+    var img = createImage();
     imageArea.appendChild(img.parentNode);
   }
   cmdClearImages();
-  equal(imageArea.childNodes.length, 0, "done removed");
+  equal(imageArea.childNodes.length, 0, "cleard all images");
 });
 
 test("insertFirst should insert element when no child node", function() {
