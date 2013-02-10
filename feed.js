@@ -173,7 +173,7 @@ function randPictureUrl() {
 
 function makeKey() {
   var key = "";
-  for (i = 0; i < 5; i++) key += randChar();
+  for (var i = 0; i < 5; i++) key += randChar();
   return key;
 }
 
@@ -181,6 +181,6 @@ function randChar() {
   var chars="0123456789"
     + "abcdefghijklmnopqrstuvwxyz"
     + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  index = parseInt(Math.random() * chars.length);
+  var index = parseInt(Math.random() * chars.length);
   return chars.charAt(index);
 }
